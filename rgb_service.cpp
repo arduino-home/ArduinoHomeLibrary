@@ -17,8 +17,8 @@ struct RGBServiceConfig {
   uint8_t b;
 };
 
-RGBService::RGBService(const char *pid, const int &prpin, const int &pgpin, const int &pbpin)
- : id(pid), rpin(prpin), gpin(pgpin), bpin(pbpin), config(nullptr) {
+RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, const char *pid)
+ : id(pid ? pid : "rgb"), rpin(prpin), gpin(pgpin), bpin(pbpin), config(nullptr) {
 }
 
 void RGBService::init() {

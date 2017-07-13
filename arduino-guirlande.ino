@@ -26,7 +26,7 @@ void setup() {
 
   Runtime::registerService(new ConfigurationService());
   Runtime::registerService(new WifiService(80, CONFIG_PIN));
-  Runtime::registerService(new RGBService("rgb", RED_PIN, GREEN_PIN, BLUE_PIN));
+  Runtime::registerService(new RGBService(RED_PIN, GREEN_PIN, BLUE_PIN));
   
   Runtime::setup();
 }

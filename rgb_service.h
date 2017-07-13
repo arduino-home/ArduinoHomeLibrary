@@ -9,7 +9,7 @@ class ConfigItem;
 struct RGBServiceConfig;
 
 struct RGBService : public Service {
-  explicit RGBService(const char *pid, const int &prpin, const int &pgpin, const int &pbpin);
+  explicit RGBService(const int &prpin, const int &pgpin, const int &pbpin, const char *pid = nullptr);
   virtual ~RGBService() = default;
 
   virtual void init();
