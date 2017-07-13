@@ -5,8 +5,6 @@
 #include <DNSServer.h>
 #include <WiFiManager.h>          // https://github.com/tzapu/WiFiManager
 
-#include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
-
 #include "utils.h"
 #include "wifi_service.h"
 #include "runtime.h"
