@@ -24,7 +24,7 @@ public:
   
   void save() const {
     Debug << "config save at " << offset << endl;
-    EEPROM.put(offset, *static_cast<Data*>(this));
+    EEPROM.put(offset, *static_cast<const Data*>(this));
     EEPROM.commit();
   }
 
