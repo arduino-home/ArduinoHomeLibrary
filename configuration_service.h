@@ -18,10 +18,12 @@ public:
   }
     
   void load() {
+    Debug << "config load at " << offset << endl;
     EEPROM.get(offset, *static_cast<Data*>(this));
   }
   
   void save() const {
+    Debug << "config save at " << offset << endl;
     EEPROM.put(offset, *static_cast<Data*>(this));
     EEPROM.commit();
   }
