@@ -5,6 +5,9 @@ class Service;
 class ConfigurationService;
 class CommunicationService;
 
+template<typename Node>
+class LinkedList;
+
 struct Runtime {
 
   static void registerService(ConfigurationService *service);
