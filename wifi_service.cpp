@@ -49,14 +49,16 @@ static inline void debugWifiStatus() {
   if(oldStatus == WiFi.status()) { return; }
   oldStatus = WiFi.status();
 
-  Debug << WiFi.SSID() << " " << wifiStatusToString() << endl;
+  Debug << WiFi.SSID() << " " << wifiStatusToString();
+  if(oldStatus == WL_CONNECTED) { Debug << " " << WiFi.localIP(); }
+  Debug << endl;
 }
 
 WifiService::WifiService(const int &pport, const int &pconfigPin)
- : server(new ESP8266WebServer(pport)), configPin(pconfigPin) {
+ : server(nullptr), port(pport), configPin(pconfigPin) {
 }
 
-void WifiService::setup() {
+void WifiService::init() {
   pinMode(configPin, INPUT_PULLUP);
 
   if(isConfigRequested(configPin)) {
@@ -64,6 +66,11 @@ void WifiService::setup() {
     ESP.reset();
   }
 
+  // build the server after wifi management
+  server = new ESP8266WebServer(port);
+}
+
+void WifiService::setup() {
   WiFi.begin();
   server->begin();
 }

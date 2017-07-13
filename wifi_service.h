@@ -12,6 +12,7 @@ struct WifiService : public CommunicationService {
   explicit WifiService(const int &pport, const int &pconfigPin);
   virtual ~WifiService() = default;
 
+  virtual void init();
   virtual void setup();
   virtual void loop();
 
@@ -24,6 +25,7 @@ struct WifiService : public CommunicationService {
   
 private:
   ESP8266WebServer *server;
+  int port;
   int configPin;
 };
 
