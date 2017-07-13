@@ -31,7 +31,14 @@ void RGBService::init() {
   auto uri = strdup(suri.c_str());
 
   wifiService->on(uri, HTTP_GET, [this](ESP8266WebServer *server) {
-    server->send(200, "application/json", "{ \"r\": " + String(config->r) + ", \"g\": " + String(config->g) + ", \"b\": " + String(config->b) + " }");
+    StaticJsonBuffer<200> jsonBuffer;
+    JsonObject& data = jsonBuffer.createObject();
+    data["r"] = config->r;
+    data["g"] = config->g;
+    data["b"] = config->b;
+    String response;
+    data.printTo(response); // TODO: avoid string ?
+    server->send(200, "application/json", response);
   });
   
   wifiService->on(uri, HTTP_POST, [this](ESP8266WebServer *server) {
