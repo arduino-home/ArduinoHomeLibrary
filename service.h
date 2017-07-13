@@ -6,9 +6,9 @@ struct Service {
   
   virtual ~Service() = default;
   
-  virtual void init() = 0;
-  virtual void setup() = 0;
-  virtual void loop() = 0;
+  virtual void init() { }
+  virtual void setup() { }
+  virtual void loop() { }
 };
 
 #endif // __ARDUINO_HOME_SERVICE_H__
