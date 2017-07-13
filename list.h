@@ -52,9 +52,16 @@ public:
     return LinkedListIterator<Node>(head);
   }
 
+  LinkedListIterator<const Node> begin() const {
+    return LinkedListIterator<const Node>(head);
+  }
 
   LinkedListIterator<Node> end() {
     return LinkedListIterator<Node>(nullptr);
+  }
+
+  LinkedListIterator<const Node> end() const {
+    return LinkedListIterator<const Node>(nullptr);
   }
 };
 
