@@ -17,6 +17,8 @@ struct Runtime {
   static void loop();
 
   static const char *getVersion();
+
+  static const LinkedList<Service> & getServices();
 };
 
 #endif // __ARDUINO_HOME_RUNTIME_H__

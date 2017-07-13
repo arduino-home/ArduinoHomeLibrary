@@ -72,3 +72,7 @@ const char *Runtime::getVersion() {
   return VERSION;
 }
 
+const LinkedList<Service> & Runtime::getServices() {
+  return services;
+}
+
