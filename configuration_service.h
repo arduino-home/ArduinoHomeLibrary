@@ -37,7 +37,6 @@ struct ConfigurationService : public Service {
   
   virtual void setup();
 
-
   virtual const char *getVersion() const;
   virtual const char *getName() const;
   virtual const char *getId() const;
