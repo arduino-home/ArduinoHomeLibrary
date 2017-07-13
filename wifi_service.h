@@ -1,6 +1,8 @@
 #ifndef __ARDUINO_HOME_WIFI_SERVICE_H__
 #define __ARDUINO_HOME_WIFI_SERVICE_H__
 
+#include "communication_service.h"
+
 class ESP8266WebServer;
 enum HTTPMethod;
 

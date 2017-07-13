@@ -8,8 +8,6 @@
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
 
 #include "utils.h"
-#include "service.h"
-#include "communication_service.h"
 #include "wifi_service.h"
 #include "runtime.h"
 
