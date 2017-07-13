@@ -12,6 +12,7 @@
 #define NAME "RGBService"
 
 struct RGBServiceConfig {
+  uint8_t state;
   uint8_t r;
   uint8_t g;
   uint8_t b;
@@ -33,6 +34,7 @@ void RGBService::init() {
   wifiService->on(uri, HTTP_GET, [this](ESP8266WebServer *server) {
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& data = jsonBuffer.createObject();
+    data["state"] = config->state;
     data["r"] = config->r;
     data["g"] = config->g;
     data["b"] = config->b;
@@ -50,6 +52,7 @@ void RGBService::init() {
       return;
     }
 
+    if(data.containsKey("state")) { config->state = data["state"]; }
     if(data.containsKey("r")) { config->r = data["r"]; }
     if(data.containsKey("g")) { config->g = data["g"]; }
     if(data.containsKey("b")) { config->b = data["b"]; }
@@ -67,11 +70,17 @@ void RGBService::setup() {
 }
 
 void RGBService::apply() {
-  Debug << id << ": apply red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl;
-  
-  analogWrite(rpin, config->r);
-  analogWrite(gpin, config->g);
-  analogWrite(bpin, config->b);
+  Debug << id << ": apply state=" << config->state << ", red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl;
+
+  if(config->state) {
+    analogWrite(rpin, config->r);
+    analogWrite(gpin, config->g);
+    analogWrite(bpin, config->b);
+  } else {
+    analogWrite(rpin, 0);
+    analogWrite(gpin, 0);
+    analogWrite(bpin, 0);
+  }
 }
 
 const char *RGBService::getVersion() const {
