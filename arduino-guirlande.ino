@@ -12,6 +12,7 @@
 #include "runtime.h"
 #include "configuration_service.h"
 #include "wifi_service.h"
+#include "info_service.h"
 #include "rgb_service.h"
 
 #define CONFIG_PIN D1
@@ -26,6 +27,7 @@ void setup() {
 
   Runtime::registerService(new ConfigurationService());
   Runtime::registerService(new WifiService(80, CONFIG_PIN));
+  Runtime::registerService(new InfoService());
   Runtime::registerService(new RGBService(RED_PIN, GREEN_PIN, BLUE_PIN));
   
   Runtime::setup();
