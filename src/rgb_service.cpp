@@ -12,6 +12,7 @@
 #define NAME "RGBService"
 
 struct RGBServiceConfig {
+  uint8_t state;
   uint8_t r;
   uint8_t g;
   uint8_t b;
@@ -25,9 +26,9 @@ RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, con
 
 void RGBService::init() {
   config = Runtime::getConfigurationService()->createItem<RGBServiceConfig>();
-  
+
   auto wifiService = static_cast<WifiService*>(Runtime::getCommunicationService());
-  
+
   // have a persistent uri
   String suri = String("/") + id;
   auto uri = strdup(suri.c_str());
@@ -35,6 +36,7 @@ void RGBService::init() {
   wifiService->on(uri, HTTP_GET, [this](ESP8266WebServer *server) {
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& data = jsonBuffer.createObject();
+    data["state"] = config->state;
     data["r"] = config->r;
     data["g"] = config->g;
     data["b"] = config->b;
@@ -42,7 +44,7 @@ void RGBService::init() {
     data.printTo(response); // TODO: avoid string ?
     server->send(200, "application/json", response);
   });
-  
+
   wifiService->on(uri, HTTP_POST, [this](ESP8266WebServer *server) {
     StaticJsonBuffer<200> buffer;
     JsonObject& data = buffer.parseObject(server->arg("plain"));
@@ -52,10 +54,11 @@ void RGBService::init() {
       return;
     }
 
+    if(data.containsKey("state")) { config->state = data["state"]; }
     if(data.containsKey("r")) { config->r = data["r"]; }
     if(data.containsKey("g")) { config->g = data["g"]; }
     if(data.containsKey("b")) { config->b = data["b"]; }
-    
+
     apply();
     config->save();
 
@@ -69,14 +72,20 @@ void RGBService::setup() {
 }
 
 void RGBService::apply() {
-  AH_DEBUG(id << ": apply red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl);
-  
-  analogWrite(rpin, config->r);
-  analogWrite(gpin, config->g);
-  analogWrite(bpin, config->b);
+  AH_DEBUG(id << ": apply state=" << config->state << "red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl);
+
+  if(config->state) {
+    analogWrite(rpin, config->r);
+    analogWrite(gpin, config->g);
+    analogWrite(bpin, config->b);
+  } else {
+    analogWrite(rpin, 0);
+    analogWrite(gpin, 0);
+    analogWrite(bpin, 0);
+  }
 }
 
-const char *RGBService::getName() const { 
+const char *RGBService::getName() const {
   return NAME;
 }
 
