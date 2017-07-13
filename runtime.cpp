@@ -9,9 +9,14 @@
 
 #define VERSION "1.0.0"
 
+static const char *name = "Unamed";
 static LinkedList<Service> services;
 static ConfigurationService *configService = nullptr;
 static CommunicationService *commService = nullptr;
+
+void Runtime::setName(const char *pname) {
+  name = pname;
+}
 
 void Runtime::registerService(ConfigurationService *service) {
   if(configService) {
@@ -66,6 +71,10 @@ void Runtime::loop() {
   for(auto service : services) {
     service->loop();
   }
+}
+
+const char *Runtime::getName() {
+  return name;
 }
 
 const char *Runtime::getVersion() {
