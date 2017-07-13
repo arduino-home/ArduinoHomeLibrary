@@ -15,6 +15,8 @@ struct Runtime {
 
   static void setup();
   static void loop();
+
+  static const char *getVersion();
 };
 
 #endif // __ARDUINO_HOME_RUNTIME_H__

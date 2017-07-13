@@ -7,6 +7,8 @@
 #include "configuration_service.h"
 #include "communication_service.h"
 
+#define VERSION "1.0.0"
+
 static LinkedList<Service> services;
 static ConfigurationService *configService = nullptr;
 static CommunicationService *commService = nullptr;
@@ -64,5 +66,9 @@ void Runtime::loop() {
   for(auto service : services) {
     service->loop();
   }
+}
+
+const char *Runtime::getVersion() {
+  return VERSION;
 }
 
