@@ -49,10 +49,10 @@ void RGBService::init() {
       server->send(400);
       return;
     }
-    
-    config->r = data["r"];
-    config->g = data["g"];
-    config->b = data["b"];
+
+    if(data.containsKey("r")) { config->r = data["r"]; }
+    if(data.containsKey("g")) { config->g = data["g"]; }
+    if(data.containsKey("b")) { config->b = data["b"]; }
     
     apply();
     config->save();
