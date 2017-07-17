@@ -22,8 +22,7 @@
 #define BLUE_PIN D7
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println("\n Starting");
+  AH_DEBUG_INIT();
 
   Runtime::setName("Guirlande");
   Runtime::registerService(new ConfigurationService());

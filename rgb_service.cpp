@@ -69,7 +69,7 @@ void RGBService::setup() {
 }
 
 void RGBService::apply() {
-  Debug << id << ": apply red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl;
+  AH_DEBUG(id << ": apply red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl);
   
   analogWrite(rpin, config->r);
   analogWrite(gpin, config->g);

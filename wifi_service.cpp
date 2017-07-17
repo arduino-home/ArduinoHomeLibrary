@@ -18,11 +18,11 @@ static inline void configWifi() {
 
   String name = String(Runtime::getName()) + "-" + String(ESP.getChipId());
   if (!wifiManager.startConfigPortal(name.c_str())) {
-    Debug << "failed to connect and hit timeout" << endl;
+    AH_DEBUG("failed to connect and hit timeout" << endl);
     panic();
   }
 
-  Debug << "connected" << endl;
+  AH_DEBUG("connected" << endl);
 }
 
 static inline bool isConfigRequested(const int &pin) {
@@ -49,9 +49,9 @@ static inline void debugWifiStatus() {
   if(oldStatus == WiFi.status()) { return; }
   oldStatus = WiFi.status();
 
-  Debug << WiFi.SSID() << " " << wifiStatusToString();
-  if(oldStatus == WL_CONNECTED) { Debug << " " << WiFi.localIP(); }
-  Debug << endl;
+  AH_DEBUG(WiFi.SSID() << " " << wifiStatusToString());
+  if(oldStatus == WL_CONNECTED) { AH_DEBUG(" " << WiFi.localIP()); }
+  AH_DEBUG(endl);
 }
 
 WifiService::WifiService(const int &pport, const int &pconfigPin)

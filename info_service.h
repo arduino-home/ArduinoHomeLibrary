@@ -8,6 +8,7 @@ struct InfoService : public Service {
   virtual ~InfoService() = default;
 
   virtual void init();
+  virtual void setup();
 
   virtual const char *getName() const;
   virtual const char *getId() const;

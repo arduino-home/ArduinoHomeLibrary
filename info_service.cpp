@@ -40,6 +40,21 @@ void InfoService::init() {
   });
 }
 
+void InfoService::setup() {
+  const auto &services = Runtime::getServices();
+
+  AH_DEBUG("Runtime: name=" << Runtime::getName() << ", version=" << Runtime::getVersion() << endl);
+  
+  for(const auto *service : services) {
+    AH_DEBUG(service->getName() << ": id=" << service->getId());
+    const auto *settings = service->getSettings();
+    if(settings) {
+      AH_DEBUG(", " << settings);
+    }
+    AH_DEBUG(endl);
+  }
+}
+
 const char *InfoService::getName() const { 
   return NAME;
 }

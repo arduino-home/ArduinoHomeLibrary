@@ -19,20 +19,14 @@ void Runtime::setName(const char *pname) {
 }
 
 void Runtime::registerService(ConfigurationService *service) {
-  if(configService) {
-    Debug << "configuration service registered twice" << endl;
-    panic();
-  }
+  AH_ASSERT(!configService, "configuration service registered twice");
   
   configService = service;
   registerService(static_cast<Service *>(service));
 }
 
 void Runtime::registerService(CommunicationService *service) {
-  if(commService) {
-    Debug << "communication service registered twice" << endl;
-    panic();
-  }
+  AH_ASSERT(!commService, "communication service registered twice");
   
   commService = service;
   registerService(static_cast<Service *>(service));
@@ -44,20 +38,12 @@ void Runtime::registerService(Service *service) {
 }
 
 ConfigurationService* Runtime::getConfigurationService() {
-  if(!configService) {
-    Debug << "configuration service not registered" << endl;
-    panic();
-  }
-
+  AH_ASSERT(configService, "configuration service not registered");
   return configService;
 }
 
 CommunicationService* Runtime::getCommunicationService() {
-  if(!commService) {
-    Debug << "communication service not registered" << endl;
-    panic();
-  }
-
+  AH_ASSERT(commService, "communication service not registered");
   return commService;
 }
 
