@@ -1,2 +1,2 @@
-# arduino-home-library
+# ArduinoHomeLibrary
 Librairie de runtime arduino
