@@ -1,2 +1,2 @@
-# arduino-guirlande
-Gestion d'une guirlande RGB
+# arduino-home-library
+Librairie de runtime arduino
