@@ -25,6 +25,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("\n Starting");
 
+  Runtime::setName("Guirlande");
   Runtime::registerService(new ConfigurationService());
   Runtime::registerService(new WifiService(80, CONFIG_PIN));
   Runtime::registerService(new InfoService());
