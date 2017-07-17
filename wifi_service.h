@@ -16,9 +16,9 @@ struct WifiService : public CommunicationService {
   virtual void setup();
   virtual void loop();
 
-  virtual const char *getVersion() const;
   virtual const char *getName() const;
   virtual const char *getId() const;
+  virtual const char *getSettings() const;
 
   void on(const char* uri, handler_t handler);
   void on(const char* uri, HTTPMethod method, handler_t handler);
@@ -27,6 +27,7 @@ private:
   ESP8266WebServer *server;
   int port;
   int configPin;
+  String settings;
 };
 
 #endif // __ARDUINO_HOME_WIFI_SERVICE_H__

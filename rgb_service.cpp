@@ -3,16 +3,15 @@
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
 
 #include "utils.h"
+#include "string_stream.h"
 #include "runtime.h"
 #include "wifi_service.h"
 #include "configuration_service.h"
 #include "rgb_service.h"
 
-#define VERSION "1.0.0"
 #define NAME "RGBService"
 
 struct RGBServiceConfig {
-  uint8_t state;
   uint8_t r;
   uint8_t g;
   uint8_t b;
@@ -20,6 +19,8 @@ struct RGBServiceConfig {
 
 RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, const char *pid)
  : id(pid ? pid : "rgb"), rpin(prpin), gpin(pgpin), bpin(pbpin), config(nullptr) {
+  StringStream ss(settings);
+  ss << "r=" << rpin << ", g=" << gpin << ", b=" << bpin;
 }
 
 void RGBService::init() {
@@ -34,7 +35,6 @@ void RGBService::init() {
   wifiService->on(uri, HTTP_GET, [this](ESP8266WebServer *server) {
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& data = jsonBuffer.createObject();
-    data["state"] = config->state;
     data["r"] = config->r;
     data["g"] = config->g;
     data["b"] = config->b;
@@ -51,11 +51,10 @@ void RGBService::init() {
       server->send(400);
       return;
     }
-
-    if(data.containsKey("state")) { config->state = data["state"]; }
-    if(data.containsKey("r")) { config->r = data["r"]; }
-    if(data.containsKey("g")) { config->g = data["g"]; }
-    if(data.containsKey("b")) { config->b = data["b"]; }
+    
+    config->r = data["r"];
+    config->g = data["g"];
+    config->b = data["b"];
     
     apply();
     config->save();
@@ -70,21 +69,11 @@ void RGBService::setup() {
 }
 
 void RGBService::apply() {
-  Debug << id << ": apply state=" << config->state << ", red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl;
-
-  if(config->state) {
-    analogWrite(rpin, config->r);
-    analogWrite(gpin, config->g);
-    analogWrite(bpin, config->b);
-  } else {
-    analogWrite(rpin, 0);
-    analogWrite(gpin, 0);
-    analogWrite(bpin, 0);
-  }
-}
-
-const char *RGBService::getVersion() const {
-  return VERSION;
+  Debug << id << ": apply red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl;
+  
+  analogWrite(rpin, config->r);
+  analogWrite(gpin, config->g);
+  analogWrite(bpin, config->b);
 }
 
 const char *RGBService::getName() const { 
@@ -93,5 +82,9 @@ const char *RGBService::getName() const {
 
 const char *RGBService::getId() const {
   return id;
+}
+
+const char *RGBService::getSettings() const {
+  return settings.c_str();
 }
 

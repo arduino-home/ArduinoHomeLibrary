@@ -6,10 +6,10 @@
 #include <WiFiManager.h>          // https://github.com/tzapu/WiFiManager
 
 #include "utils.h"
+#include "string_stream.h"
 #include "wifi_service.h"
 #include "runtime.h"
 
-#define VERSION "1.0.0"
 #define NAME "WifiService"
 
 static inline void configWifi() {
@@ -56,6 +56,8 @@ static inline void debugWifiStatus() {
 
 WifiService::WifiService(const int &pport, const int &pconfigPin)
  : server(nullptr), port(pport), configPin(pconfigPin) {
+  StringStream ss(settings);
+  ss << "port=" << port << ", configPin=" << configPin;
 }
 
 void WifiService::init() {
@@ -89,15 +91,15 @@ void WifiService::on(const char* uri, HTTPMethod method, handler_t handler) {
   server->on(uri, method, [this, handler]() { handler(server); });
 }
 
-const char *WifiService::getVersion() const {
-  return VERSION;
-}
-
 const char *WifiService::getName() const { 
   return NAME;
 }
 
 const char *WifiService::getId() const {
   return NAME;
+}
+
+const char *WifiService::getSettings() const {
+  return settings.c_str();
 }
 

@@ -10,9 +10,9 @@ struct Service {
   virtual void setup() { }
   virtual void loop() { }
 
-  virtual const char *getVersion() const = 0;
   virtual const char *getName() const = 0;
   virtual const char *getId() const = 0;
+  virtual const char *getSettings() const { return nullptr; }
 };
 
 #endif // __ARDUINO_HOME_SERVICE_H__

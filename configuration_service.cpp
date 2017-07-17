@@ -4,7 +4,6 @@
 #include "utils.h"
 #include "configuration_service.h"
 
-#define VERSION "1.0.0"
 #define NAME "ConfigurationService"
 
 ConfigurationService::ConfigurationService()
@@ -13,10 +12,6 @@ ConfigurationService::ConfigurationService()
   
 void ConfigurationService::setup() {
   EEPROM.begin(size);
-}
-
-const char *ConfigurationService::getVersion() const {
-  return VERSION;
 }
 
 const char *ConfigurationService::getName() const { 

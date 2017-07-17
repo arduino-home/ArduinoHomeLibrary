@@ -15,9 +15,9 @@ struct RGBService : public Service {
   virtual void init();
   virtual void setup();
 
-  virtual const char *getVersion() const;
   virtual const char *getName() const;
   virtual const char *getId() const;
+  virtual const char *getSettings() const;
 
 private:
   void apply();
@@ -29,6 +29,7 @@ private:
   int bpin;
 
   ConfigItem<RGBServiceConfig> *config;
+  String settings;
 };
 
 #endif // __ARDUINO_HOME_RGB_SERVICE_H__
