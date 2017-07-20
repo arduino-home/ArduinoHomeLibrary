@@ -73,6 +73,9 @@ public:
       if(!uri.length()) {
         return false;
       }
+      if(uri[0] != '/') {
+        return false;
+      }
       uri = uri.substring(1);
       switch(method) {
         case HTTP_GET:
