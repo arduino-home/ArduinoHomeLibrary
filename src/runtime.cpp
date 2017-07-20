@@ -5,14 +5,14 @@
 #include "runtime.h"
 #include "service.h"
 #include "configuration_service.h"
-#include "communication_service.h"
+#include "dispatcher_service.h"
 
 #define VERSION "1.0.1"
 
 static const char *name = "Unamed";
 static LinkedList<Service> services;
 static ConfigurationService *configService = nullptr;
-static CommunicationService *commService = nullptr;
+static DispatcherService *dispService = nullptr;
 
 void Runtime::setName(const char *pname) {
   name = pname;
@@ -25,10 +25,10 @@ void Runtime::registerService(ConfigurationService *service) {
   registerService(static_cast<Service *>(service));
 }
 
-void Runtime::registerService(CommunicationService *service) {
-  AH_ASSERT(!commService, "communication service registered twice");
+void Runtime::registerService(DispatcherService *service) {
+  AH_ASSERT(!dispService, "dispatcher service registered twice");
 
-  commService = service;
+  dispService = service;
   registerService(static_cast<Service *>(service));
 }
 
@@ -42,9 +42,9 @@ ConfigurationService* Runtime::getConfigurationService() {
   return configService;
 }
 
-CommunicationService* Runtime::getCommunicationService() {
-  AH_ASSERT(commService, "communication service not registered");
-  return commService;
+DispatcherService* Runtime::getDispatcherService() {
+  AH_ASSERT(dispService, "dispatcher service not registered");
+  return dispService;
 }
 
 void Runtime::setup() {

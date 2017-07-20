@@ -3,7 +3,7 @@
 
 class Service;
 class ConfigurationService;
-class CommunicationService;
+class DispatcherService;
 
 template<typename Node>
 class LinkedList;
@@ -16,7 +16,7 @@ struct Runtime {
   static void registerService(CommunicationService *service);
   static void registerService(Service *service);
   static ConfigurationService* getConfigurationService();
-  static CommunicationService* getCommunicationService();
+  static DispatcherService* getDispatcherService();
 
   static void setup();
   static void loop();
