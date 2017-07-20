@@ -11,13 +11,11 @@
 #define NAME "InfoService"
 
 void InfoService::init() {
+  auto dispatcher = Runtime::getDispatcherService();
 
-  auto wifiService = static_cast<HttpService*>(Runtime::getCommunicationService());
-
-  wifiService->on("/info", HTTP_GET, [this](ESP8266WebServer *server) {
+  dispatcher->registerGetter("info", [this](ArduinoJson::DynamicJsonBuffer &buffer) {
     const auto &services = Runtime::getServices();
-    StaticJsonBuffer<1024> jsonBuffer;
-    JsonArray& list = jsonBuffer.createArray();
+    JsonArray& list = buffer.createArray();
 
     JsonObject& rtitem = list.createNestedObject();
     rtitem["id"] = "Runtime";
@@ -33,10 +31,6 @@ void InfoService::init() {
         item["settings"] = settings;
       }
     }
-
-    String response;
-    list.printTo(response); // TODO: avoid string ?
-    server->send(200, "application/json", response);
   });
 }
 

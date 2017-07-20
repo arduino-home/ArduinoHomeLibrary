@@ -26,33 +26,24 @@ RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, con
 
 void RGBService::init() {
   config = Runtime::getConfigurationService()->createItem<RGBServiceConfig>();
+  auto dispatcher = Runtime::getDispatcherService();
 
-  auto wifiService = static_cast<HttpService*>(Runtime::getCommunicationService());
-
-  // have a persistent uri
-  String suri = String("/") + id;
-  auto uri = strdup(suri.c_str());
-
-  wifiService->on(uri, HTTP_GET, [this](ESP8266WebServer *server) {
-    StaticJsonBuffer<200> jsonBuffer;
-    JsonObject& data = jsonBuffer.createObject();
+  dispatcher->registerGetter(id, [this](ArduinoJson::DynamicJsonBuffer &buffer) {
+    JsonObject& data = buffer.createObject();
     data["state"] = config->state;
     data["r"] = config->r;
     data["g"] = config->g;
     data["b"] = config->b;
-    String response;
-    data.printTo(response); // TODO: avoid string ?
-    server->send(200, "application/json", response);
+
+    return true;
   });
 
-  wifiService->on(uri, HTTP_POST, [this](ESP8266WebServer *server) {
-    StaticJsonBuffer<200> buffer;
-    JsonObject& data = buffer.parseObject(server->arg("plain"));
-
-    if(!data.success()) {
-      server->send(400);
-      return;
+  dispatcher->registerSetter(id, [this](const ArduinoJson::JsonVariant &value) {
+    if(!value.is<JsonObject>()) {
+      return false;
     }
+
+    JsonObject& data = value.as<JsonObject>();
 
     if(data.containsKey("state")) { config->state = data["state"]; }
     if(data.containsKey("r")) { config->r = data["r"]; }
@@ -62,7 +53,7 @@ void RGBService::init() {
     apply();
     config->save();
 
-    server->send(200);
+    return true;
   });
 }
 
