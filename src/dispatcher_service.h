@@ -31,7 +31,7 @@ struct DispatcherService : public Service {
   bool hasGetter(const String &id) const;
   bool hasSetter(const String &id) const;
 
-  static JsonStaticBuffer<1024> &sharedBuffer();
+  static StaticJsonBuffer<1024> &sharedBuffer();
 
 private:
   LinkedList<DispatcherGetterNode> getters;
