@@ -54,7 +54,7 @@ static inline void debugWifiStatus() {
   AH_DEBUG(endl);
 }
 
-WifiSetupService::WifiSetupService(const int &pport, const int &pconfigPin)
+WifiSetupService::WifiSetupService(const int &pconfigPin)
  : configPin(pconfigPin) {
   StringStream ss(settings);
   ss << "configPin=" << configPin;
