@@ -21,11 +21,12 @@ class ServiceRequestHandler : public RequestHandler {
     DynamicJsonBuffer buffer(1024);
     switch(dispatcher->get(id, buffer)) {
 
-      case DispatcherService::HandlerResult::success:
+      case DispatcherService::HandlerResult::success: {
         String response;
         buffer.printTo(response); // TODO: avoid string ?
         server.send(200, "application/json", response);
         break;
+      }
 
       case DispatcherService::HandlerResult::not_found:
         server.send(404);
