@@ -28,14 +28,14 @@ void RGBService::init() {
   config = Runtime::getConfigurationService()->createItem<RGBServiceConfig>();
   auto dispatcher = Runtime::getDispatcherService();
 
-  dispatcher->registerGetter(id, [this](ArduinoJson::JsonVariant &value) {
+  dispatcher->registerGetter(id, [this](ArduinoJson::JsonVariant *value) {
     JsonObject& data = DispatcherService::sharedBuffer().createObject();
     data["state"] = config->state;
     data["r"] = config->r;
     data["g"] = config->g;
     data["b"] = config->b;
 
-    value = data;
+    value = &data;
     return true;
   });
 

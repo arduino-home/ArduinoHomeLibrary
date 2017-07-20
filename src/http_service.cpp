@@ -18,12 +18,12 @@ class ServiceRequestHandler : public RequestHandler {
   DispatcherService *dispatcher;
 
   void handleGet(ESP8266WebServer& server, const String &id) {
-    JsonVariant &value;
+    JsonVariant *value;
     switch(dispatcher->get(id, value)) {
 
       case DispatcherService::HandlerResult::success: {
         String response;
-        value.printTo(response); // TODO: avoid string ?
+        value->printTo(response); // TODO: avoid string ?
         server.send(200, "application/json", response);
         break;
       }
