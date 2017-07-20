@@ -53,27 +53,44 @@ void DispatcherService::registerNotifier(notifier_t notifier) {
   notifiers.add(node);
 }
 
-DispatcherService::HandlerResult DispatcherService::get(const String &id, ArduinoJson::JsonObject &data) const {
+DispatcherService::HandlerResult DispatcherService::get(const String &id, ArduinoJson::DynamicJsonBuffer &buffer) const {
   for(const auto &node : getters) {
     if(node->id == id) {
-      return node->getter(data) ? HandlerResult::handler_error : HandlerResult::success;
+      return node->getter(buffer) ? HandlerResult::handler_error : HandlerResult::success;
     }
   }
   return HandlerResult::not_found;
 }
 
-DispatcherService::HandlerResult DispatcherService::set(const String &id, const ArduinoJson::JsonObject &data) const {
+DispatcherService::HandlerResult DispatcherService::set(const String &id, const ArduinoJson::JsonVariant &value) const {
   for(const auto &node : setters) {
     if(node->id == id) {
-      return node->setter(data) ? HandlerResult::handler_error : HandlerResult::success;
+      return node->setter(buffer) ? HandlerResult::handler_error : HandlerResult::success;
     }
   }
   return HandlerResult::not_found;
 }
 
-void DispatcherService::notify(const String &id, const ArduinoJson::JsonObject &data) const {
+void DispatcherService::notify(const String &id, const ArduinoJson::DynamicJsonBuffer &buffer) const {
   for(const auto &node : notifiers) {
-    node->notifier(id, data);
+    node->notifier(id, buffer);
   }
 }
 
+bool DispatcherService::hasGetter(const String &id) const {
+  for(const auto &node : getters) {
+    if(node->id == id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool DispatcherService::hasSetter(const String &id) const {
+  for(const auto &node : setters) {
+    if(node->id == id) {
+      return true;
+    }
+  }
+  return false;
+}
