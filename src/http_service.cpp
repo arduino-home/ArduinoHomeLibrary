@@ -12,10 +12,10 @@
 
 #define NAME "HttpService"
 
-HttpService::HttpService(const int &pport, const int &pconfigPin)
- : server(new ESP8266WebServer(port)), port(pport) {
+HttpService::HttpService(const int &pport)
+ : server(new ESP8266WebServer(pport)) {
   StringStream ss(settings);
-  ss << "port=" << port;
+  ss << "port=" << pport;
 }
 
 void HttpService::setup() {

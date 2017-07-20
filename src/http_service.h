@@ -24,7 +24,6 @@ struct HttpService : public CommunicationService {
 
 private:
   ESP8266WebServer *server;
-  int port;
   String settings;
 };
 
