@@ -32,7 +32,7 @@ void InfoService::init() {
       }
     }
 
-    value = &data;
+    value = &list;
     return true;
   });
 }
