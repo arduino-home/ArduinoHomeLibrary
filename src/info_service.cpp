@@ -12,7 +12,7 @@
 
 void InfoService::init() {
 
-  auto wifiService = static_cast<WifiService*>(Runtime::getCommunicationService());
+  auto wifiService = static_cast<HttpService*>(Runtime::getCommunicationService());
 
   wifiService->on("/info", HTTP_GET, [this](ESP8266WebServer *server) {
     const auto &services = Runtime::getServices();

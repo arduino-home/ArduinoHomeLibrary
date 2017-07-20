@@ -27,7 +27,7 @@ RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, con
 void RGBService::init() {
   config = Runtime::getConfigurationService()->createItem<RGBServiceConfig>();
 
-  auto wifiService = static_cast<WifiService*>(Runtime::getCommunicationService());
+  auto wifiService = static_cast<HttpService*>(Runtime::getCommunicationService());
 
   // have a persistent uri
   String suri = String("/") + id;
