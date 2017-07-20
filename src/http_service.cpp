@@ -23,7 +23,7 @@ class ServiceRequestHandler : public RequestHandler {
 
       case DispatcherService::HandlerResult::success:
         String response;
-        data.printTo(response); // TODO: avoid string ?
+        buffer.printTo(response); // TODO: avoid string ?
         server->send(200, "application/json", response);
         break;
 
@@ -47,9 +47,7 @@ class ServiceRequestHandler : public RequestHandler {
     switch(dispatcher->set(id, value)) {
 
       case DispatcherService::HandlerResult::success:
-        String response;
-        data.printTo(response); // TODO: avoid string ?
-        server->send(200, "application/json", response);
+        server->send(200);
         break;
 
       case DispatcherService::HandlerResult::not_found:
