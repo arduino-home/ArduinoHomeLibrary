@@ -24,42 +24,42 @@ class ServiceRequestHandler : public RequestHandler {
       case DispatcherService::HandlerResult::success:
         String response;
         buffer.printTo(response); // TODO: avoid string ?
-        server->send(200, "application/json", response);
+        server.send(200, "application/json", response);
         break;
 
       case DispatcherService::HandlerResult::not_found:
-        server->send(404);
+        server.send(404);
         break;
 
       case DispatcherService::HandlerResult::handler_error:
-        server->send(400);
+        server.send(400);
         break;
 
       default:
-        server->send(500);
+        server.send(500);
         break;
     }
   }
 
   void handlePost(ESP8266WebServer& server, const String &id) {
     DynamicJsonBuffer buffer(1024);
-    JsonVariant& value = buffer.parse(server->arg("plain"));
+    JsonVariant& value = buffer.parse(server.arg("plain"));
     switch(dispatcher->set(id, value)) {
 
       case DispatcherService::HandlerResult::success:
-        server->send(200);
+        server.send(200);
         break;
 
       case DispatcherService::HandlerResult::not_found:
-        server->send(404);
+        server.send(404);
         break;
 
       case DispatcherService::HandlerResult::handler_error:
-        server->send(400);
+        server.send(400);
         break;
 
       default:
-        server->send(500);
+        server.send(500);
         break;
     }
   }
