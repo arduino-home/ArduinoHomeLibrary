@@ -9,7 +9,7 @@ enum HTTPMethod;
 struct HttpService : public CommunicationService {
   typedef std::function<void(ESP8266WebServer *)> handler_t;
 
-  explicit HttpService(const int &pport);
+  explicit HttpService(const int &pport = 80);
   virtual ~HttpService() = default;
 
   virtual void setup();
