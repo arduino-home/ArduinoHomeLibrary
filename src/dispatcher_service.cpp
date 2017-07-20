@@ -66,7 +66,7 @@ void DispatcherService::registerNotifier(notifier_t notifier) {
 DispatcherService::HandlerResult DispatcherService::get(const String &id, ArduinoJson::JsonVariant &buffer) const {
   for(const auto &node : getters) {
     if(node->id == id) {
-      return node->getter(buffer) ? HandlerResult::handler_error : HandlerResult::success;
+      return node->getter(buffer) ? HandlerResult::success : HandlerResult::handler_error;
     }
   }
   return HandlerResult::not_found;
@@ -75,7 +75,7 @@ DispatcherService::HandlerResult DispatcherService::get(const String &id, Arduin
 DispatcherService::HandlerResult DispatcherService::set(const String &id, const ArduinoJson::JsonVariant &value) const {
   for(const auto &node : setters) {
     if(node->id == id) {
-      return node->setter(value) ? HandlerResult::handler_error : HandlerResult::success;
+      return node->setter(value) ? HandlerResult::success : HandlerResult::handler_error;
     }
   }
   return HandlerResult::not_found;
