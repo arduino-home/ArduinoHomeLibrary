@@ -18,7 +18,6 @@ class ServiceRequestHandler : public RequestHandler {
   DispatcherService *dispatcher;
 
   void handleGet(ESP8266WebServer& server, const String &id) {
-    Serial << "handleGet " << id << endl;
     JsonVariant value;
     switch(dispatcher->get(id, value)) {
 
@@ -88,7 +87,6 @@ public:
     }
 
     virtual bool handle(ESP8266WebServer& server, HTTPMethod method, String uri) {
-      Serial << "handle " << method << " " << uri << endl;
       uri = uri.substring(1);
 
       switch(method) {
