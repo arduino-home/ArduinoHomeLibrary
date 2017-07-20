@@ -71,7 +71,6 @@ public:
     }
 
     virtual bool canHandle(HTTPMethod method, String uri) {
-      Serial << "canHandle " << method << " " << uri << endl;
       if(!uri.length()) {
         Serial << "canHandle !uri.length()" << endl;
         return false;
