@@ -1,18 +1,17 @@
-#ifndef __ARDUINO_HOME_WIFI_SERVICE_H__
-#define __ARDUINO_HOME_WIFI_SERVICE_H__
+#ifndef __ARDUINO_HOME_HTTP_SERVICE_H__
+#define __ARDUINO_HOME_HTTP_SERVICE_H__
 
 #include "communication_service.h"
 
 class ESP8266WebServer;
 enum HTTPMethod;
 
-struct WifiService : public CommunicationService {
+struct HttpService : public CommunicationService {
   typedef std::function<void(ESP8266WebServer *)> handler_t;
-  
-  explicit WifiService(const int &pport, const int &pconfigPin);
-  virtual ~WifiService() = default;
 
-  virtual void init();
+  explicit HttpService(const int &pport);
+  virtual ~HttpService() = default;
+
   virtual void setup();
   virtual void loop();
 
@@ -22,12 +21,11 @@ struct WifiService : public CommunicationService {
 
   void on(const char* uri, handler_t handler);
   void on(const char* uri, HTTPMethod method, handler_t handler);
-  
+
 private:
   ESP8266WebServer *server;
   int port;
-  int configPin;
   String settings;
 };
 
-#endif // __ARDUINO_HOME_WIFI_SERVICE_H__
+#endif // __ARDUINO_HOME_HTTP_SERVICE_H__

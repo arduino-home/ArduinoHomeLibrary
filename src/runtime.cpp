@@ -7,7 +7,7 @@
 #include "configuration_service.h"
 #include "communication_service.h"
 
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
 
 static const char *name = "Unamed";
 static LinkedList<Service> services;
@@ -20,14 +20,14 @@ void Runtime::setName(const char *pname) {
 
 void Runtime::registerService(ConfigurationService *service) {
   AH_ASSERT(!configService, "configuration service registered twice");
-  
+
   configService = service;
   registerService(static_cast<Service *>(service));
 }
 
 void Runtime::registerService(CommunicationService *service) {
   AH_ASSERT(!commService, "communication service registered twice");
-  
+
   commService = service;
   registerService(static_cast<Service *>(service));
 }

@@ -10,7 +10,7 @@
 #include "wifi_service.h"
 #include "runtime.h"
 
-#define NAME "WifiService"
+#define NAME "WifiSetupService"
 
 static inline void configWifi() {
   WiFiManager wifiManager;
@@ -54,52 +54,38 @@ static inline void debugWifiStatus() {
   AH_DEBUG(endl);
 }
 
-WifiService::WifiService(const int &pport, const int &pconfigPin)
- : server(nullptr), port(pport), configPin(pconfigPin) {
+WifiSetupService::WifiSetupService(const int &pport, const int &pconfigPin)
+ : configPin(pconfigPin) {
   StringStream ss(settings);
-  ss << "port=" << port << ", configPin=" << configPin;
+  ss << "configPin=" << configPin;
 }
 
-void WifiService::init() {
+void WifiSetupService::init() {
   pinMode(configPin, INPUT_PULLUP);
 
   if(isConfigRequested(configPin)) {
     configWifi();
     ESP.reset();
   }
-
-  // build the server after wifi management
-  server = new ESP8266WebServer(port);
 }
 
-void WifiService::setup() {
+void WifiSetupService::setup() {
   WiFi.begin();
-  server->begin();
 }
 
-void WifiService::loop() {
+void WifiSetupService::loop() {
   debugWifiStatus();
-
-  server->handleClient();
 }
 
-void WifiService::on(const char* uri, handler_t handler) {
-  server->on(uri, [this, handler]() { handler(server); });
-}
-
-void WifiService::on(const char* uri, HTTPMethod method, handler_t handler) {
-  server->on(uri, method, [this, handler]() { handler(server); });
-}
-
-const char *WifiService::getName() const { 
+const char *WifiSetupService::getName() const {
   return NAME;
 }
 
-const char *WifiService::getId() const {
+const char *WifiSetupService::getId() const {
   return NAME;
 }
 
-const char *WifiService::getSettings() const {
+const char *WifiSetupService::getSettings() const {
   return settings.c_str();
 }
 
