@@ -10,7 +10,7 @@ struct DispatcherSetterNode;
 struct DispatcherNotifierNode;
 
 struct DispatcherService : public Service {
-  typedef std::function<bool(ArduinoJson::JsonVariant *)> getter_t;
+  typedef std::function<bool(ArduinoJson::JsonVariant &)> getter_t;
   typedef std::function<bool(const ArduinoJson::JsonVariant &)> setter_t;
   typedef std::function<void(const String &, const ArduinoJson::JsonVariant &)> notifier_t;
   enum HandlerResult { success, not_found, handler_error };
@@ -24,7 +24,7 @@ struct DispatcherService : public Service {
   void registerSetter(const String &id, setter_t setter);
   void registerNotifier(notifier_t notifier);
 
-  HandlerResult get(const String &id, ArduinoJson::JsonVariant *value) const;
+  HandlerResult get(const String &id, ArduinoJson::JsonVariant &value) const;
   HandlerResult set(const String &id, const ArduinoJson::JsonVariant &value) const;
   void notify(const String &id, const ArduinoJson::JsonVariant &value) const;
 

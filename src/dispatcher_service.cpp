@@ -63,7 +63,7 @@ void DispatcherService::registerNotifier(notifier_t notifier) {
   notifiers.add(node);
 }
 
-DispatcherService::HandlerResult DispatcherService::get(const String &id, ArduinoJson::JsonVariant *buffer) const {
+DispatcherService::HandlerResult DispatcherService::get(const String &id, ArduinoJson::JsonVariant &buffer) const {
   for(const auto &node : getters) {
     if(node->id == id) {
       return node->getter(buffer) ? HandlerResult::handler_error : HandlerResult::success;

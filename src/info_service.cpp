@@ -13,7 +13,7 @@
 void InfoService::init() {
   auto dispatcher = Runtime::getDispatcherService();
 
-  dispatcher->registerGetter("info", [this](ArduinoJson::JsonVariant *value) {
+  dispatcher->registerGetter("info", [this](ArduinoJson::JsonVariant &value) {
     const auto &services = Runtime::getServices();
     JsonArray& list = DispatcherService::sharedBuffer().createArray();
 
@@ -32,7 +32,7 @@ void InfoService::init() {
       }
     }
 
-    value = &list;
+    value = list;
     return true;
   });
 }
