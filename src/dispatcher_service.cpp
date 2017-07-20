@@ -25,6 +25,12 @@ struct DispatcherNotifierNode {
   DispatcherService::notifier_t notifier;
 };
 
+static JsonStaticBuffer<1024> _sharedBuffer;
+
+JsonStaticBuffer<1024> &DispatcherService::sharedBuffer() {
+  return (_sharedBuffer = JsonStaticBuffer<1024>());
+}
+
 const char *DispatcherService::getName() const {
   return NAME;
 }
@@ -53,7 +59,7 @@ void DispatcherService::registerNotifier(notifier_t notifier) {
   notifiers.add(node);
 }
 
-DispatcherService::HandlerResult DispatcherService::get(const String &id, ArduinoJson::DynamicJsonBuffer &buffer) const {
+DispatcherService::HandlerResult DispatcherService::get(const String &id, ArduinoJson::JsonVariant &buffer) const {
   for(const auto &node : getters) {
     if(node->id == id) {
       return node->getter(buffer) ? HandlerResult::handler_error : HandlerResult::success;
@@ -71,7 +77,7 @@ DispatcherService::HandlerResult DispatcherService::set(const String &id, const 
   return HandlerResult::not_found;
 }
 
-void DispatcherService::notify(const String &id, const ArduinoJson::DynamicJsonBuffer &buffer) const {
+void DispatcherService::notify(const String &id, const ArduinoJson::JsonVariant &buffer) const {
   for(const auto &node : notifiers) {
     node->notifier(id, buffer);
   }

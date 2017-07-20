@@ -10,9 +10,9 @@ struct DispatcherSetterNode;
 struct DispatcherNotifierNode;
 
 struct DispatcherService : public Service {
-  typedef std::function<bool(ArduinoJson::DynamicJsonBuffer &)> getter_t;
+  typedef std::function<bool(ArduinoJson::JsonVariant &)> getter_t;
   typedef std::function<bool(const ArduinoJson::JsonVariant &)> setter_t;
-  typedef std::function<void(const String &, const ArduinoJson::DynamicJsonBuffer &)> notifier_t;
+  typedef std::function<void(const String &, const ArduinoJson::JsonVariant &)> notifier_t;
   enum HandlerResult { success, not_found, handler_error };
 
   virtual ~DispatcherService() = default;
@@ -24,12 +24,14 @@ struct DispatcherService : public Service {
   void registerSetter(const String &id, setter_t setter);
   void registerNotifier(notifier_t notifier);
 
-  HandlerResult get(const String &id, ArduinoJson::DynamicJsonBuffer &buffer) const;
+  HandlerResult get(const String &id, ArduinoJson::JsonVariant &value) const;
   HandlerResult set(const String &id, const ArduinoJson::JsonVariant &value) const;
-  void notify(const String &id, const ArduinoJson::DynamicJsonBuffer &buffer) const;
+  void notify(const String &id, const ArduinoJson::JsonVariant &value) const;
 
   bool hasGetter(const String &id) const;
   bool hasSetter(const String &id) const;
+
+  static JsonStaticBuffer<1024> &sharedBuffer();
 
 private:
   LinkedList<DispatcherGetterNode> getters;

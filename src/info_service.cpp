@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "list.h"
 #include "runtime.h"
-#include "http_service.h"
+#include "dispatcher_service.h"
 #include "info_service.h"
 
 #define NAME "InfoService"
@@ -13,9 +13,9 @@
 void InfoService::init() {
   auto dispatcher = Runtime::getDispatcherService();
 
-  dispatcher->registerGetter("info", [this](ArduinoJson::DynamicJsonBuffer &buffer) {
+  dispatcher->registerGetter("info", [this](ArduinoJson::JsonVariant &value) {
     const auto &services = Runtime::getServices();
-    JsonArray& list = buffer.createArray();
+    JsonArray& list = DispatcherService::sharedBuffer().createArray();
 
     JsonObject& rtitem = list.createNestedObject();
     rtitem["id"] = "Runtime";
@@ -31,6 +31,9 @@ void InfoService::init() {
         item["settings"] = settings;
       }
     }
+
+    value = data;
+    return true;
   });
 }
 
