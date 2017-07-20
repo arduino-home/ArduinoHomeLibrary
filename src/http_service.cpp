@@ -43,7 +43,7 @@ class ServiceRequestHandler : public RequestHandler {
   }
 
   void handleSet(ESP8266WebServer& server, const String &id) {
-    JsonVariant& value = DispatcherService::sharedBuffer().parse(server.arg("plain"));
+    const JsonVariant& value = DispatcherService::sharedBuffer().parse(server.arg("plain"));
     switch(dispatcher->set(id, value)) {
 
       case DispatcherService::HandlerResult::success:
