@@ -24,6 +24,7 @@ class ServiceRequestHandler : public RequestHandler {
       case DispatcherService::HandlerResult::success: {
         String response;
         value.printTo(response); // TODO: avoid string ?
+        Serial << "response: " << response << endl;
         server.send(200, "application/json", response);
         break;
       }
