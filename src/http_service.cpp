@@ -42,7 +42,7 @@ class ServiceRequestHandler : public RequestHandler {
     }
   }
 
-  void handlePost(ESP8266WebServer& server, const String &id) {
+  void handleSet(ESP8266WebServer& server, const String &id) {
     JsonVariant& value = DispatcherService::sharedBuffer().parse(server.arg("plain"));
     switch(dispatcher->set(id, value)) {
 
@@ -66,7 +66,7 @@ class ServiceRequestHandler : public RequestHandler {
 
 public:
     ServiceRequestHandler(DispatcherService *pdispatcher)
-    : dispatcher(ptarget) {
+    : dispatcher(pdispatcher) {
     }
 
     virtual bool canHandle(HTTPMethod method, String uri) {
