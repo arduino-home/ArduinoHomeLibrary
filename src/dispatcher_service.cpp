@@ -89,7 +89,6 @@ void DispatcherService::notify(const String &id, const ArduinoJson::JsonVariant 
 
 bool DispatcherService::hasGetter(const String &id) const {
   for(const auto &node : getters) {
-    Serial << "getter id=" << node->id << endl;
     if(node->id == id) {
       return true;
     }
