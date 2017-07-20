@@ -28,7 +28,8 @@ struct DispatcherNotifierNode {
 static StaticJsonBuffer<1024> _sharedBuffer;
 
 StaticJsonBuffer<1024> &DispatcherService::sharedBuffer() {
-  return (_sharedBuffer = StaticJsonBuffer<1024>());
+  _sharedBuffer = StaticJsonBuffer<1024>();
+  return _sharedBuffer;
 }
 
 const char *DispatcherService::getName() const {
