@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "string_stream.h"
 #include "runtime.h"
-#include "wifi_service.h"
+#include "http_service.h"
 #include "configuration_service.h"
 #include "rgb_service.h"
 

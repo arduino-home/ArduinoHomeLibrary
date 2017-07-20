@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "list.h"
 #include "runtime.h"
-#include "wifi_service.h"
+#include "http_service.h"
 #include "info_service.h"
 
 #define NAME "InfoService"
@@ -44,7 +44,7 @@ void InfoService::setup() {
   const auto &services = Runtime::getServices();
 
   AH_DEBUG("Runtime: name=" << Runtime::getName() << ", version=" << Runtime::getVersion() << endl);
-  
+
   for(const auto *service : services) {
     AH_DEBUG(service->getName() << ": id=" << service->getId());
     const auto *settings = service->getSettings();
@@ -55,7 +55,7 @@ void InfoService::setup() {
   }
 }
 
-const char *InfoService::getName() const { 
+const char *InfoService::getName() const {
   return NAME;
 }
 

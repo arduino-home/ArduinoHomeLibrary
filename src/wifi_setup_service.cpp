@@ -7,7 +7,7 @@
 
 #include "utils.h"
 #include "string_stream.h"
-#include "wifi_service.h"
+#include "wifi_setup_service.h"
 #include "runtime.h"
 
 #define NAME "WifiSetupService"
