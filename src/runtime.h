@@ -13,7 +13,7 @@ struct Runtime {
   static void setName(const char *pname);
 
   static void registerService(ConfigurationService *service);
-  static void registerService(CommunicationService *service);
+  static void registerService(DispatcherService *service);
   static void registerService(Service *service);
   static ConfigurationService* getConfigurationService();
   static DispatcherService* getDispatcherService();
