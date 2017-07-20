@@ -73,9 +73,11 @@ public:
     virtual bool canHandle(HTTPMethod method, String uri) {
       Serial << "canHandle " << method << " " << uri << endl;
       if(!uri.length()) {
+        Serial << "canHandle !uri.length()" << endl;
         return false;
       }
       if(uri[0] != '/') {
+        Serial << "canHandle uri[0] != '/'" << endl;
         return false;
       }
       uri = uri.substring(1);
