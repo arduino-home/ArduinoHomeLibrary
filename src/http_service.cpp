@@ -18,12 +18,12 @@ class ServiceRequestHandler : public RequestHandler {
   DispatcherService *dispatcher;
 
   void handleGet(ESP8266WebServer& server, const String &id) {
-    DynamicJsonBuffer buffer(1024);
-    switch(dispatcher->get(id, buffer)) {
+    JsonVariant &value;
+    switch(dispatcher->get(id, value)) {
 
       case DispatcherService::HandlerResult::success: {
         String response;
-        buffer.printTo(response); // TODO: avoid string ?
+        value.printTo(response); // TODO: avoid string ?
         server.send(200, "application/json", response);
         break;
       }
@@ -43,8 +43,7 @@ class ServiceRequestHandler : public RequestHandler {
   }
 
   void handlePost(ESP8266WebServer& server, const String &id) {
-    DynamicJsonBuffer buffer(1024);
-    JsonVariant& value = buffer.parse(server.arg("plain"));
+    JsonVariant& value = DispatcherService::sharedBuffer().parse(server.arg("plain"));
     switch(dispatcher->set(id, value)) {
 
       case DispatcherService::HandlerResult::success:
