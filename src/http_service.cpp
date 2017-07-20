@@ -8,9 +8,97 @@
 #include "utils.h"
 #include "string_stream.h"
 #include "http_service.h"
+#include "dispatcher_service.h"
 #include "runtime.h"
 
 #define NAME "HttpService"
+
+class ServiceRequestHandler : public RequestHandler {
+
+  DispatcherService *dispatcher;
+
+  void handleGet(ESP8266WebServer& server, const String &id) {
+    DynamicJsonBuffer buffer(1024);
+    switch(dispatcher->get(id, buffer)) {
+
+      case DispatcherService::HandlerResult::success:
+        String response;
+        data.printTo(response); // TODO: avoid string ?
+        server->send(200, "application/json", response);
+        break;
+
+      case DispatcherService::HandlerResult::not_found:
+        server->send(404);
+        break;
+
+      case DispatcherService::HandlerResult::handler_error:
+        server->send(400);
+        break;
+
+      default:
+        server->send(500);
+        break;
+    }
+  }
+
+  void handlePost(ESP8266WebServer& server, const String &id) {
+    DynamicJsonBuffer buffer(1024);
+    JsonVariant& value = buffer.parse(server->arg("plain"));
+    switch(dispatcher->set(id, value)) {
+
+      case DispatcherService::HandlerResult::success:
+        String response;
+        data.printTo(response); // TODO: avoid string ?
+        server->send(200, "application/json", response);
+        break;
+
+      case DispatcherService::HandlerResult::not_found:
+        server->send(404);
+        break;
+
+      case DispatcherService::HandlerResult::handler_error:
+        server->send(400);
+        break;
+
+      default:
+        server->send(500);
+        break;
+    }
+  }
+
+public:
+    ServiceRequestHandler(DispatcherService *pdispatcher)
+    : dispatcher(ptarget) {
+    }
+
+    virtual bool canHandle(HTTPMethod method, String uri) {
+      if(!uri.length()) {
+        return false;
+      }
+      uri = uri.substring(1);
+      switch(method) {
+        case HTTP_GET:
+          return dispatcher->hasGetter(uri);
+        case HTTP_POST:
+          return dispatcher->hasSetter(uri);
+      }
+      return false;
+    }
+
+    virtual bool handle(ESP8266WebServer& server, HTTPMethod method, String uri) {
+      uri = uri.substring(1);
+
+      switch(method) {
+        case HTTP_GET:
+          handleGet(server, uri);
+          return true;
+        case HTTP_POST:
+          handleSet(server, uri);
+          return true;
+      }
+      return false;
+    }
+};
 
 HttpService::HttpService(const int &pport)
  : server(new ESP8266WebServer(pport)) {
@@ -19,19 +107,13 @@ HttpService::HttpService(const int &pport)
 }
 
 void HttpService::setup() {
+  auto dispatcher = Runtime::getDispatcherService();
+  server->addHandler(new ServiceRequestHandler(dispatcher));
   server->begin();
 }
 
 void HttpService::loop() {
   server->handleClient();
-}
-
-void HttpService::on(const char* uri, handler_t handler) {
-  server->on(uri, [this, handler]() { handler(server); });
-}
-
-void HttpService::on(const char* uri, HTTPMethod method, handler_t handler) {
-  server->on(uri, method, [this, handler]() { handler(server); });
 }
 
 const char *HttpService::getName() const {
@@ -45,4 +127,3 @@ const char *HttpService::getId() const {
 const char *HttpService::getSettings() const {
   return settings.c_str();
 }
-
