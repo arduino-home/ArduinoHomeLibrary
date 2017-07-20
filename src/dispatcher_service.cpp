@@ -65,7 +65,7 @@ DispatcherService::HandlerResult DispatcherService::get(const String &id, Arduin
 DispatcherService::HandlerResult DispatcherService::set(const String &id, const ArduinoJson::JsonVariant &value) const {
   for(const auto &node : setters) {
     if(node->id == id) {
-      return node->setter(buffer) ? HandlerResult::handler_error : HandlerResult::success;
+      return node->setter(value) ? HandlerResult::handler_error : HandlerResult::success;
     }
   }
   return HandlerResult::not_found;
