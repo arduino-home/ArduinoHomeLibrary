@@ -70,6 +70,7 @@ void WifiSetupService::init() {
 }
 
 void WifiSetupService::setup() {
+  WiFi.mode(WIFI_STA);
   WiFi.begin();
 }
 
