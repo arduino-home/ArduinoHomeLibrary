@@ -19,9 +19,6 @@ struct HttpService : public CommunicationService {
   virtual const char *getId() const;
   virtual const char *getSettings() const;
 
-  void on(const char* uri, handler_t handler);
-  void on(const char* uri, HTTPMethod method, handler_t handler);
-
 private:
   ESP8266WebServer *server;
   String settings;
