@@ -26,7 +26,7 @@ private:
   void process(const IrcMessageParser &msg);
   bool connected() const;
 
-  const char *nick;
+  String nick;
   const char *channel;
   const char *server;
   uint16_t port;

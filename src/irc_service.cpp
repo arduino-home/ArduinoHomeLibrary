@@ -77,7 +77,14 @@ public:
 };
 
 IrcService::IrcService(const char *pnick, const char *pchannel, const char *pserver, uint16_t pport)
- : nick(pnick), channel(pchannel), server(pserver), port(pport), client(new WiFiClient()), registered(no), lastTry(0), dispatcher(nullptr) {
+ : nick(pnick ? String(pnick) ? String(Runtime::getName()) + "-" + String(ESP.getChipId())),
+   channel(pchannel),
+   server(pserver),
+   port(pport),
+   client(new WiFiClient()),
+   registered(no),
+   lastTry(0),
+   dispatcher(nullptr) {
   StringStream ss(settings);
   ss << "nick=" << pnick << ", channel=" << pchannel << ", server=" << pserver << ", port=" << pport;
 }
