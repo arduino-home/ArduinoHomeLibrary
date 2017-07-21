@@ -205,7 +205,7 @@ void IrcService::process(const IrcMessageParser &msg) {
     char *id   = strtok(nullptr, " ");
     char *data = strtok(nullptr, "");
 
-    if(!self || strcmp(self, nick)) {
+    if(!self || nick !=self) {
       return;
     }
 
