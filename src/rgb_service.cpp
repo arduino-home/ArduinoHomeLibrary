@@ -27,7 +27,6 @@ RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, con
 void RGBService::init() {
   dispatcher = Runtime::getDispatcherService();
   config = Runtime::getConfigurationService()->createItem<RGBServiceConfig>();
-  auto dispatcher = Runtime::getDispatcherService();
 
   dispatcher->registerGetter(id, [this](ArduinoJson::JsonVariant &value) {
     JsonObject& data = DispatcherService::sharedBuffer().createObject();
