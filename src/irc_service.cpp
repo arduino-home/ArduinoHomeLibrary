@@ -77,7 +77,7 @@ public:
 };
 
 IrcService::IrcService(const char *pnick, const char *pchannel, const char *pserver, uint16_t pport)
- : nick(pnick ? String(pnick) ? (String(Runtime::getName()) + "-" + String(ESP.getChipId()))),
+ : nick(pnick ? String(pnick) : (String(Runtime::getName()) + "-" + String(ESP.getChipId()))),
    channel(pchannel),
    server(pserver),
    port(pport),
