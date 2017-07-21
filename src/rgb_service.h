@@ -7,6 +7,7 @@ template<typename Data>
 class ConfigItem;
 
 struct RGBServiceConfig;
+struct DispatcherService;
 
 struct RGBService : public Service {
   explicit RGBService(const int &prpin, const int &pgpin, const int &pbpin, const char *pid = nullptr);
@@ -23,11 +24,12 @@ private:
   void apply();
 
   const char *id;
-  
+
   int rpin;
   int gpin;
   int bpin;
 
+  DispatcherService *dispatcher;
   ConfigItem<RGBServiceConfig> *config;
   String settings;
 };

@@ -25,6 +25,7 @@ RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, con
 }
 
 void RGBService::init() {
+  dispatcher = Runtime::getDispatcherService();
   config = Runtime::getConfigurationService()->createItem<RGBServiceConfig>();
   auto dispatcher = Runtime::getDispatcherService();
 
@@ -75,6 +76,14 @@ void RGBService::apply() {
     analogWrite(gpin, 0);
     analogWrite(bpin, 0);
   }
+
+  JsonObject& data = DispatcherService::sharedBuffer().createObject();
+  data["state"] = config->state;
+  data["r"] = config->r;
+  data["g"] = config->g;
+  data["b"] = config->b;
+
+  dispatcher->notify(id, data);
 }
 
 const char *RGBService::getName() const {
