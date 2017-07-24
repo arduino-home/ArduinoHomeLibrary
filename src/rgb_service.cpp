@@ -73,11 +73,11 @@ void RGBService::setup() {
 }
 
 void RGBService::apply() {
-  AH_DEBUG(id << ": apply state=" << config->state << ", red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl);
-
   checkBound(config->r);
   checkBound(config->g);
   checkBound(config->b);
+
+  AH_DEBUG(id << ": apply state=" << config->state << ", red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl);
 
   if(config->state) {
     analogWrite(rpin, config->r);
