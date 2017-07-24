@@ -80,7 +80,7 @@ void RGBService::apply() {
   checkBound(config->b);
 
   if(config->state) {
-    analogWrite(rpin, config->r );
+    analogWrite(rpin, config->r);
     analogWrite(gpin, config->g);
     analogWrite(bpin, config->b);
   } else {
