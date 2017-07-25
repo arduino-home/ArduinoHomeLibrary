@@ -13,14 +13,16 @@
 
 struct RGBServiceConfig {
   bool state;
-  uint16_t r;
-  uint16_t g;
-  uint16_t b;
+  uint8_t r;
+  uint8_t g;
+  uint8_t b;
 };
 
-static inline void checkBound(uint16_t &value) {
-  if(value > PWMRANGE) { value = PWMRANGE; }
+#if PWMRANGE != 255
+static inline uint16_t pwmValue(uint8_t value) {
+  return static_cast<uint32_t>(value) * PWMRANGE / 255;
 }
+#endif
 
 RGBService::RGBService(const int &prpin, const int &pgpin, const int &pbpin, const char *pid)
  : id(pid ? pid : "rgb"), rpin(prpin), gpin(pgpin), bpin(pbpin), config(nullptr) {
@@ -73,16 +75,18 @@ void RGBService::setup() {
 }
 
 void RGBService::apply() {
-  checkBound(config->r);
-  checkBound(config->g);
-  checkBound(config->b);
-
   AH_DEBUG(id << ": apply state=" << config->state << ", red=" << config->r << ", green=" << config->g << ", blue=" << config->b << endl);
 
   if(config->state) {
+#if PWMRANGE != 255
+    analogWrite(rpin, pwmValue(config->r));
+    analogWrite(gpin, pwmValue(config->g));
+    analogWrite(bpin, pwmValue(config->b));
+#else
     analogWrite(rpin, config->r);
     analogWrite(gpin, config->g);
     analogWrite(bpin, config->b);
+#endif
   } else {
     analogWrite(rpin, 0);
     analogWrite(gpin, 0);
@@ -109,4 +113,3 @@ const char *RGBService::getId() const {
 const char *RGBService::getSettings() const {
   return settings.c_str();
 }
-
