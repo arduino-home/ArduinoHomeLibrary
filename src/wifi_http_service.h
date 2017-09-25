@@ -1,14 +1,14 @@
-#ifndef __ARDUINO_HOME_HTTP_SERVICE_H__
-#define __ARDUINO_HOME_HTTP_SERVICE_H__
+#ifndef __ARDUINO_HOME_WIFI_HTTP_SERVICE_H__
+#define __ARDUINO_HOME_WIFI_HTTP_SERVICE_H__
 
 #include "service.h"
 
 class ESP8266WebServer;
 
-struct HttpService : public Service {
+struct WifiHttpService : public Service {
 
-  explicit HttpService(const int &pport = 80);
-  virtual ~HttpService() = default;
+  explicit WifiHttpService(const int &pport = 80);
+  virtual ~WifiHttpService() = default;
 
   virtual void setup();
   virtual void loop();
@@ -22,4 +22,4 @@ private:
   String settings;
 };
 
-#endif // __ARDUINO_HOME_HTTP_SERVICE_H__
+#endif // __ARDUINO_HOME_WIFI_HTTP_SERVICE_H__

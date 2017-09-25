@@ -4,11 +4,11 @@
 
 #include "utils.h"
 #include "string_stream.h"
-#include "http_service.h"
+#include "wifi_http_service.h"
 #include "dispatcher_service.h"
 #include "runtime.h"
 
-#define NAME "HttpService"
+#define NAME "WifiHttpService"
 
 class ServiceRequestHandler : public RequestHandler {
 
@@ -98,30 +98,30 @@ public:
     }
 };
 
-HttpService::HttpService(const int &pport)
+WifiHttpService::WifiHttpService(const int &pport)
  : server(new ESP8266WebServer(pport)) {
   StringStream ss(settings);
   ss << "port=" << pport;
 }
 
-void HttpService::setup() {
+void WifiHttpService::setup() {
   auto dispatcher = Runtime::getDispatcherService();
   server->addHandler(new ServiceRequestHandler(dispatcher));
   server->begin();
 }
 
-void HttpService::loop() {
+void WifiHttpService::loop() {
   server->handleClient();
 }
 
-const char *HttpService::getName() const {
+const char *WifiHttpService::getName() const {
   return NAME;
 }
 
-const char *HttpService::getId() const {
+const char *WifiHttpService::getId() const {
   return NAME;
 }
 
-const char *HttpService::getSettings() const {
+const char *WifiHttpService::getSettings() const {
   return settings.c_str();
 }
