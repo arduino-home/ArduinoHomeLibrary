@@ -1,9 +1,6 @@
-#include "system.h"
-
-//needed for library
+#include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <DNSServer.h>
-#include <WiFiManager.h>          // https://github.com/tzapu/WiFiManager
 
 #include "utils.h"
 #include "string_stream.h"

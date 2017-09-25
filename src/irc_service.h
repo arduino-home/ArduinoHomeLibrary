@@ -3,8 +3,11 @@
 
 #include "service.h"
 
+class Client;
+
 class IrcMessageParser;
 struct DispatcherService;
+struct NetworkService;
 
 struct IrcService : public Service {
 
@@ -35,6 +38,7 @@ private:
   enum { no, pending, success } registered;
   String buffer;
   DispatcherService *dispatcher;
+  NetworkService *net;
 
   String settings;
 };

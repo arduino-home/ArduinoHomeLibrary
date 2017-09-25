@@ -11,7 +11,6 @@ struct WifiSetupService : public Service {
 
   virtual void init();
   virtual void setup();
-  virtual void loop();
 
   virtual const char *getName() const;
   virtual const char *getId() const;

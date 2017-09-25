@@ -1,4 +1,4 @@
-#include "system.h"
+#include <Arduino.h>
 
 #include "utils.h"
 #include "string_stream.h"
@@ -87,7 +87,9 @@ IrcService::IrcService(const char *pnick, const char *pchannel, const char *pser
 
 void IrcService::setup() {
   dispatcher = Runtime::getDispatcherService();
-  client = Runtime::getNetworkService()->createClient();
+  net = Runtime::getNetworkService();
+
+  client = net->createClient();
 
   dispatcher->registerNotifier([this](const String &id, const ArduinoJson::JsonVariant &value) {
     if(!connected()) {
@@ -127,7 +129,7 @@ const char *IrcService::getSettings() const {
 
 bool IrcService::checkConnection() {
 
-  if(WiFi.status() != WL_CONNECTED) {
+  if(!net->isOnline()) {
     client->stop();
     return false;
   }

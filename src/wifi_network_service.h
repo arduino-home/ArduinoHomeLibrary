@@ -10,9 +10,12 @@ struct WifiNetworkService : public NetworkService {
   virtual ~WifiNetworkService() = default;
 
   virtual void init();
+  virtual void loop();
 
   virtual Server *createServer(const int &port);
   virtual Client *createClient();
+
+  virtual bool isOnline();
 
   virtual const char *getName() const;
   virtual const char *getId() const;

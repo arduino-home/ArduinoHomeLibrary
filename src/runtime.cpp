@@ -1,4 +1,4 @@
-#include "system.h"
+#include <Arduino.h>
 
 #include "utils.h"
 #include "list.h"
