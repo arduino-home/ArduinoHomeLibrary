@@ -4,7 +4,6 @@
 #include "service.h"
 
 class ESP8266WebServer;
-enum HTTPMethod;
 
 struct HttpService : public Service {
 
