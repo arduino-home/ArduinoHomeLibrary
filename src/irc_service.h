@@ -1,13 +1,13 @@
 #ifndef __ARDUINO_HOME_IRC_SERVICE_H__
 #define __ARDUINO_HOME_IRC_SERVICE_H__
 
-#include "communication_service.h"
+#include "service.h"
 
 class WiFiClient;
 class IrcMessageParser;
 struct DispatcherService;
 
-struct IrcService : public CommunicationService {
+struct IrcService : public Service {
 
   explicit IrcService(const char *pnick, const char *pchannel, const char *pserver, uint16_t pport = 6667);
   virtual ~IrcService() = default;

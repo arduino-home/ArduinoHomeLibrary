@@ -2,7 +2,6 @@
 #include "service.h"
 #include "runtime.h"
 
-#include "communication_service.h"
 #include "configuration_service.h"
 #include "dispatcher_service.h"
 #include "wifi_setup_service.h"

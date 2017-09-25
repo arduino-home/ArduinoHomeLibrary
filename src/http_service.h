@@ -1,12 +1,12 @@
 #ifndef __ARDUINO_HOME_HTTP_SERVICE_H__
 #define __ARDUINO_HOME_HTTP_SERVICE_H__
 
-#include "communication_service.h"
+#include "service.h"
 
 class ESP8266WebServer;
 enum HTTPMethod;
 
-struct HttpService : public CommunicationService {
+struct HttpService : public Service {
 
   explicit HttpService(const int &pport = 80);
   virtual ~HttpService() = default;
