@@ -1,4 +1,6 @@
-#include <ESP8266WiFi.h>          // https://github.com/esp8266/Arduino
+#ifdef ESP8266
+
+#include "system.h"
 
 //needed for library
 #include <ESP8266WebServer.h>
@@ -90,3 +92,4 @@ const char *WifiSetupService::getSettings() const {
   return settings.c_str();
 }
 
+#endif // ESP8266

@@ -1,4 +1,4 @@
-#include <ESP8266WiFi.h>          // https://github.com/esp8266/Arduino
+#include "system.h"
 #include <EEPROM.h>
 
 #include "utils.h"
