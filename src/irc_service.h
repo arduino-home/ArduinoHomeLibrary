@@ -3,7 +3,6 @@
 
 #include "service.h"
 
-class WiFiClient;
 class IrcMessageParser;
 struct DispatcherService;
 
@@ -31,7 +30,7 @@ private:
   const char *server;
   uint16_t port;
 
-  WiFiClient *client;
+  Client *client;
   unsigned long lastTry;
   enum { no, pending, success } registered;
   String buffer;

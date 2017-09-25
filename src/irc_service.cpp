@@ -1,14 +1,10 @@
 #include "system.h"
 
-//needed for library
-#include <ESP8266WebServer.h>
-#include <DNSServer.h>
-#include <WiFiManager.h>          // https://github.com/tzapu/WiFiManager
-
 #include "utils.h"
 #include "string_stream.h"
 #include "irc_service.h"
 #include "dispatcher_service.h"
+#include "network_service.h"
 #include "runtime.h"
 
 #define NAME "IrcService"
@@ -77,11 +73,11 @@ public:
 };
 
 IrcService::IrcService(const char *pnick, const char *pchannel, const char *pserver, uint16_t pport)
- : nick(pnick ? String(pnick) : (String(Runtime::getName()) + "-" + String(ESP.getChipId()))),
+ : nick(pnick ? String(pnick) : (String(Runtime::getName()) + "-" + String(Runtime::getUid()))),
    channel(pchannel),
    server(pserver),
    port(pport),
-   client(new WiFiClient()),
+   client(nullptr),
    registered(no),
    lastTry(0),
    dispatcher(nullptr) {
@@ -91,6 +87,7 @@ IrcService::IrcService(const char *pnick, const char *pchannel, const char *pser
 
 void IrcService::setup() {
   dispatcher = Runtime::getDispatcherService();
+  client = Runtime::getNetworkService()->createClient();
 
   dispatcher->registerNotifier([this](const String &id, const ArduinoJson::JsonVariant &value) {
     if(!connected()) {
