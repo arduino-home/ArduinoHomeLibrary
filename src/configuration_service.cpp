@@ -9,12 +9,12 @@
 ConfigurationService::ConfigurationService()
  : size(0) {
 }
-  
+
 void ConfigurationService::setup() {
   EEPROM.begin(size);
 }
 
-const char *ConfigurationService::getName() const { 
+const char *ConfigurationService::getName() const {
   return NAME;
 }
 
