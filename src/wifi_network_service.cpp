@@ -49,6 +49,20 @@ Client *WifiNetworkService::createClient() {
   return new WiFiClient();
 }
 
+Client *WifiNetworkService::serverAvailable(Server *server) {
+  auto wserver = static_cast<WiFiServer *>(server);
+  auto client = wserver->available();
+  if(!client) {
+    return nullptr;
+  }
+  return new WiFiClient(client);
+}
+
+void WifiNetworkService::serverClose(Server *server) {
+  auto wserver = static_cast<WiFiServer *>(server);
+  wserver->close();
+}
+
 bool WifiNetworkService::isOnline() {
   return WiFi.status() == WL_CONNECTED;
 }

@@ -1,22 +1,20 @@
-#ifdef ESP8266
-
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
-#include <DNSServer.h>
+#include <Arduino.h>
 
 #include "utils.h"
 #include "string_stream.h"
-#include "wifi_http_service.h"
+#include "http_service.h"
 #include "dispatcher_service.h"
+#include "network_service.h"
 #include "runtime.h"
+#include "web_server.h"
 
-#define NAME "WifiHttpService"
+#define NAME "HttpService"
 
 class ServiceRequestHandler : public RequestHandler {
 
   DispatcherService *dispatcher;
 
-  void handleGet(ESP8266WebServer& server, const String &id) {
+  void handleGet(WebServer& server, const String &id) {
     JsonVariant value;
     switch(dispatcher->get(id, value)) {
 
@@ -41,7 +39,7 @@ class ServiceRequestHandler : public RequestHandler {
     }
   }
 
-  void handleSet(ESP8266WebServer& server, const String &id) {
+  void handleSet(WebServer& server, const String &id) {
     const JsonVariant& value = DispatcherService::sharedBuffer().parse(server.arg("plain"));
     switch(dispatcher->set(id, value)) {
 
@@ -85,7 +83,7 @@ public:
       return false;
     }
 
-    virtual bool handle(ESP8266WebServer& server, HTTPMethod method, String uri) {
+    virtual bool handle(WebServer& server, HTTPMethod method, String uri) {
       uri = uri.substring(1);
 
       switch(method) {
@@ -100,33 +98,31 @@ public:
     }
 };
 
-WifiHttpService::WifiHttpService(const int &pport)
- : server(new ESP8266WebServer(pport)) {
+HttpService::HttpService(const int &pport)
+ : server(new WebServer(Runtime::getNetworkService(), pport)) {
   StringStream ss(settings);
   ss << "port=" << pport;
 }
 
-void WifiHttpService::setup() {
+void HttpService::setup() {
   auto dispatcher = Runtime::getDispatcherService();
   server->addHandler(new ServiceRequestHandler(dispatcher));
   server->begin();
 }
 
-void WifiHttpService::loop() {
+void HttpService::loop() {
   server->handleClient();
 }
 
-const char *WifiHttpService::getName() const {
+const char *HttpService::getName() const {
   return NAME;
 }
 
-const char *WifiHttpService::getId() const {
+const char *HttpService::getId() const {
   return NAME;
 }
 
-const char *WifiHttpService::getSettings() const {
+const char *HttpService::getSettings() const {
   return settings.c_str();
 }
-
-#endif // ESP8266
 

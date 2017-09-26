@@ -1,6 +1,8 @@
 #ifndef __ARDUINO_HOME_WIFI_HTTP_SERVICE_H__
 #define __ARDUINO_HOME_WIFI_HTTP_SERVICE_H__
 
+#ifdef ESP8266
+
 #include "service.h"
 
 class ESP8266WebServer;
@@ -21,5 +23,7 @@ private:
   ESP8266WebServer *server;
   String settings;
 };
+
+#endif // ESP8266
 
 #endif // __ARDUINO_HOME_WIFI_HTTP_SERVICE_H__

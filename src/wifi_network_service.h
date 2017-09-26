@@ -14,6 +14,8 @@ struct WifiNetworkService : public NetworkService {
 
   virtual Server *createServer(const int &port);
   virtual Client *createClient();
+  virtual Client *serverAvailable(Server *server);
+  virtual void serverClose(Server *server);
 
   virtual bool isOnline();
 

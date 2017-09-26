@@ -11,6 +11,8 @@ struct NetworkService : public Service {
 
   virtual Server *createServer(const int &port) = 0;
   virtual Client *createClient() = 0;
+  virtual Client *serverAvailable(Server *server) = 0;
+  virtual void serverClose(Server *server) = 0;
 
   virtual bool isOnline() = 0;
 };

@@ -8,6 +8,7 @@
 #include "wifi_setup_service.h"
 #include "wifi_network_service.h"
 #include "wifi_http_service.h"
+#include "http_service.h"
 #include "irc_service.h"
 #include "info_service.h"
 #include "rgb_service.h"
