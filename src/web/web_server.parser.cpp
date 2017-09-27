@@ -1,7 +1,7 @@
 // https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WebServer/src/Parsing.cpp
 
 #include <Arduino.h>
-#include "network_service.h"
+#include "services/network_service.h"
 #include "web_server.h"
 
 namespace ah {

@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-#include "utils.h"
-#include "string_stream.h"
+#include "utils/utils.h"
+#include "utils/string_stream.h"
 #include "irc_service.h"
 #include "dispatcher_service.h"
 #include "network_service.h"

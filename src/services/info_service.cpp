@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
-#include "utils.h"
-#include "list.h"
+#include "utils/utils.h"
+#include "utils/list.h"
 #include "runtime.h"
 #include "dispatcher_service.h"
 #include "info_service.h"

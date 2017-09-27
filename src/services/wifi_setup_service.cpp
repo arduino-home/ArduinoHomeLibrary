@@ -5,8 +5,8 @@
 #include <DNSServer.h>
 #include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
 
-#include "utils.h"
-#include "string_stream.h"
+#include "utils/utils.h"
+#include "utils/string_stream.h"
 #include "wifi_setup_service.h"
 #include "runtime.h"
 

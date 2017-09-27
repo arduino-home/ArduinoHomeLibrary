@@ -1,12 +1,12 @@
 #include <Arduino.h>
 
-#include "utils.h"
-#include "list.h"
+#include "utils/utils.h"
+#include "utils/list.h"
 #include "runtime.h"
-#include "service.h"
-#include "configuration_service.h"
-#include "dispatcher_service.h"
-#include "network_service.h"
+#include "services/service.h"
+#include "services/configuration_service.h"
+#include "services/dispatcher_service.h"
+#include "services/network_service.h"
 
 #define VERSION "1.0.9"
 

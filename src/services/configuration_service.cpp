@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 
-#include "utils.h"
+#include "utils/utils.h"
 #include "configuration_service.h"
 
 #define NAME "ConfigurationService"

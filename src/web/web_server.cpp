@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <libb64/cencode.h>
 
-#include "network_service.h"
+#include "services/network_service.h"
 #include "web_server.h"
 
 namespace ah {

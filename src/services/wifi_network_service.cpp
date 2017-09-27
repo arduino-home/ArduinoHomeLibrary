@@ -2,7 +2,7 @@
 
 #include <ESP8266WiFi.h> // https://github.com/esp8266/Arduino
 
-#include "utils.h"
+#include "utils/utils.h"
 #include "wifi_network_service.h"
 #include "runtime.h"
 
