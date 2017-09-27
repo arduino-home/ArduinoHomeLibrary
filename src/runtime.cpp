@@ -8,91 +8,95 @@
 #include "dispatcher_service.h"
 #include "network_service.h"
 
-#define VERSION "1.0.8"
+#define VERSION "1.0.9"
 
-static const char *name = "Unamed";
-static uint32_t uid = 0;
+namespace ah {
 
-static LinkedList<Service> services;
-static ConfigurationService *configService = nullptr;
-static DispatcherService *dispService = nullptr;
-static NetworkService *netService = nullptr;
+  static const char *name = "Unamed";
+  static uint32_t uid = 0;
 
-void Runtime::setName(const char *pname) {
-  name = pname;
-}
+  static utils::LinkedList<services::Service> serviceList;
+  static services::ConfigurationService *configService = nullptr;
+  static services::DispatcherService *dispService = nullptr;
+  static services::NetworkService *netService = nullptr;
 
-void Runtime::setUid(const uint32_t &puid) {
-  uid = puid;
-}
-
-void Runtime::registerService(ConfigurationService *service) {
-  AH_ASSERT(!configService, "configuration service registered twice");
-
-  configService = service;
-  registerService(static_cast<Service *>(service));
-}
-
-void Runtime::registerService(DispatcherService *service) {
-  AH_ASSERT(!dispService, "dispatcher service registered twice");
-
-  dispService = service;
-  registerService(static_cast<Service *>(service));
-}
-
-void Runtime::registerService(NetworkService *service) {
-  AH_ASSERT(!netService, "network service registered twice");
-
-  netService = service;
-  registerService(static_cast<Service *>(service));
-}
-
-void Runtime::registerService(Service *service) {
-  services.add(service);
-  service->init();
-}
-
-ConfigurationService* Runtime::getConfigurationService() {
-  AH_ASSERT(configService, "configuration service not registered");
-  return configService;
-}
-
-DispatcherService* Runtime::getDispatcherService() {
-  AH_ASSERT(dispService, "dispatcher service not registered");
-  return dispService;
-}
-
-NetworkService* Runtime::getNetworkService() {
-  AH_ASSERT(netService, "network service not registered");
-  return netService;
-}
-
-void Runtime::setup() {
-  for(auto service : services) {
-    service->setup();
+  void Runtime::setName(const char *pname) {
+    name = pname;
   }
-}
 
-void Runtime::loop() {
-  for(auto service : services) {
-    service->loop();
+  void Runtime::setUid(const uint32_t &puid) {
+    uid = puid;
   }
-}
 
-const uint32_t &Runtime::getUid() {
-  AH_ASSERT(uid, "uid not initialized");
-  return uid;
-}
+  void Runtime::registerService(services::ConfigurationService *service) {
+    AH_ASSERT(!configService, "configuration service registered twice");
 
-const char *Runtime::getName() {
-  return name;
-}
+    configService = service;
+    registerService(static_cast<services::Service *>(service));
+  }
 
-const char *Runtime::getVersion() {
-  return VERSION;
-}
+  void Runtime::registerService(services::DispatcherService *service) {
+    AH_ASSERT(!dispService, "dispatcher service registered twice");
 
-const LinkedList<Service> & Runtime::getServices() {
-  return services;
-}
+    dispService = service;
+    registerService(static_cast<services::Service *>(service));
+  }
+
+  void Runtime::registerService(services::NetworkService *service) {
+    AH_ASSERT(!netService, "network service registered twice");
+
+    netService = service;
+    registerService(static_cast<services::Service *>(service));
+  }
+
+  void Runtime::registerService(services::Service *service) {
+    serviceList.add(service);
+    service->init();
+  }
+
+  services::ConfigurationService* Runtime::getConfigurationService() {
+    AH_ASSERT(configService, "configuration service not registered");
+    return configService;
+  }
+
+  services::DispatcherService* Runtime::getDispatcherService() {
+    AH_ASSERT(dispService, "dispatcher service not registered");
+    return dispService;
+  }
+
+  services::NetworkService* Runtime::getNetworkService() {
+    AH_ASSERT(netService, "network service not registered");
+    return netService;
+  }
+
+  void Runtime::setup() {
+    for(auto service : serviceList) {
+      service->setup();
+    }
+  }
+
+  void Runtime::loop() {
+    for(auto service : serviceList) {
+      service->loop();
+    }
+  }
+
+  const uint32_t &Runtime::getUid() {
+    AH_ASSERT(uid, "uid not initialized");
+    return uid;
+  }
+
+  const char *Runtime::getName() {
+    return name;
+  }
+
+  const char *Runtime::getVersion() {
+    return VERSION;
+  }
+
+  const utils::LinkedList<services::Service> & Runtime::getServices() {
+    return serviceList;
+  }
+
+} // namespace ah
 

@@ -3,15 +3,21 @@
 
 #include "service.h"
 
-struct InfoService : public Service {
-  explicit InfoService() = default;
-  virtual ~InfoService() = default;
+namespace ah {
+  namespace services {
 
-  virtual void init();
-  virtual void setup();
+    struct InfoService : public Service {
+      explicit InfoService() = default;
+      virtual ~InfoService() = default;
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
-};
+      virtual void init();
+      virtual void setup();
+
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // __ARDUINO_HOME_INFO_SERVICE_H__

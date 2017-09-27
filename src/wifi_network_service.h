@@ -5,27 +5,33 @@
 
 #include "network_service.h"
 
-struct WifiNetworkService : public NetworkService {
-  explicit WifiNetworkService() = default;
-  virtual ~WifiNetworkService() = default;
+namespace ah {
+  namespace services {
 
-  virtual void init();
-  virtual void loop();
+    struct WifiNetworkService : public NetworkService {
+      explicit WifiNetworkService() = default;
+      virtual ~WifiNetworkService() = default;
 
-  virtual Server *createServer(const int &port);
-  virtual Client *createClient();
-  virtual Client *serverAvailable(Server *server);
-  virtual void serverClose(Server *server);
+      virtual void init();
+      virtual void loop();
 
-  virtual bool isOnline();
+      virtual Server *createServer(const int &port);
+      virtual Client *createClient();
+      virtual Client *serverAvailable(Server *server);
+      virtual void serverClose(Server *server);
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
+      virtual bool isOnline();
 
-private:
-  int configPin;
-  String settings;
-};
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+
+    private:
+      int configPin;
+      String settings;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // ESP8266
 

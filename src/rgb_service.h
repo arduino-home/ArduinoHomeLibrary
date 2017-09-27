@@ -3,35 +3,41 @@
 
 #include "service.h"
 
-template<typename Data>
-class ConfigItem;
+namespace ah {
+  namespace services {
 
-struct RGBServiceConfig;
-struct DispatcherService;
+    template<typename Data>
+    class ConfigItem;
 
-struct RGBService : public Service {
-  explicit RGBService(const int &prpin, const int &pgpin, const int &pbpin, const char *pid = nullptr);
-  virtual ~RGBService() = default;
+    struct RGBServiceConfig;
+    struct DispatcherService;
 
-  virtual void init();
-  virtual void setup();
+    struct RGBService : public Service {
+      explicit RGBService(const int &prpin, const int &pgpin, const int &pbpin, const char *pid = nullptr);
+      virtual ~RGBService() = default;
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
-  virtual const char *getSettings() const;
+      virtual void init();
+      virtual void setup();
 
-private:
-  void apply();
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+      virtual const char *getSettings() const;
 
-  const char *id;
+    private:
+      void apply();
 
-  int rpin;
-  int gpin;
-  int bpin;
+      const char *id;
 
-  DispatcherService *dispatcher;
-  ConfigItem<RGBServiceConfig> *config;
-  String settings;
-};
+      int rpin;
+      int gpin;
+      int bpin;
+
+      DispatcherService *dispatcher;
+      ConfigItem<RGBServiceConfig> *config;
+      String settings;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // __ARDUINO_HOME_RGB_SERVICE_H__

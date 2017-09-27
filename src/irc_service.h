@@ -5,42 +5,50 @@
 
 class Client;
 
-class IrcMessageParser;
-struct DispatcherService;
-struct NetworkService;
+namespace ah {
+  namespace services {
+    namespace internal {
+      class IrcMessageParser;
+    } // namespace internal
 
-struct IrcService : public Service {
+    struct DispatcherService;
+    struct NetworkService;
 
-  explicit IrcService(const char *pnick, const char *pchannel, const char *pserver, uint16_t pport = 6667);
-  virtual ~IrcService() = default;
+    struct IrcService : public Service {
 
-  virtual void setup();
-  virtual void loop();
+      explicit IrcService(const char *pnick, const char *pchannel, const char *pserver, uint16_t pport = 6667);
+      virtual ~IrcService() = default;
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
-  virtual const char *getSettings() const;
+      virtual void setup();
+      virtual void loop();
 
-private:
-  bool checkConnection();
-  bool checkRegistration();
-  void read();
-  void process(const IrcMessageParser &msg);
-  bool connected() const;
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+      virtual const char *getSettings() const;
 
-  String nick;
-  const char *channel;
-  const char *server;
-  uint16_t port;
+    private:
+      bool checkConnection();
+      bool checkRegistration();
+      void read();
+      void process(const internal::IrcMessageParser &msg);
+      bool connected() const;
 
-  Client *client;
-  unsigned long lastTry;
-  enum { no, pending, success } registered;
-  String buffer;
-  DispatcherService *dispatcher;
-  NetworkService *net;
+      String nick;
+      const char *channel;
+      const char *server;
+      uint16_t port;
 
-  String settings;
-};
+      Client *client;
+      unsigned long lastTry;
+      enum { no, pending, success } registered;
+      String buffer;
+      DispatcherService *dispatcher;
+      NetworkService *net;
+
+      String settings;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // __ARDUINO_HOME_IRC_SERVICE_H__

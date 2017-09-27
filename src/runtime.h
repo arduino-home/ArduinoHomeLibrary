@@ -1,36 +1,44 @@
 #ifndef __ARDUINO_HOME_RUNTIME_H__
 #define __ARDUINO_HOME_RUNTIME_H__
 
-class Service;
-class ConfigurationService;
-class DispatcherService;
-class NetworkService;
+namespace ah {
 
-template<typename Node>
-class LinkedList;
+  namespace utils {
+    template<typename Node>
+    class LinkedList;
+  } // namespace utils
 
-struct Runtime {
+  namespace services {
+    class Service;
+    class ConfigurationService;
+    class DispatcherService;
+    class NetworkService;
+  } // namespace services
 
-  static void setName(const char *pname);
-  static void setUid(const uint32_t &puid);
+  struct Runtime {
 
-  static void registerService(ConfigurationService *service);
-  static void registerService(DispatcherService *service);
-  static void registerService(NetworkService *service);
-  static void registerService(Service *service);
+    static void setName(const char *pname);
+    static void setUid(const uint32_t &puid);
 
-  static ConfigurationService* getConfigurationService();
-  static DispatcherService* getDispatcherService();
-  static NetworkService* getNetworkService();
+    static void registerService(services::ConfigurationService *service);
+    static void registerService(services::DispatcherService *service);
+    static void registerService(services::NetworkService *service);
+    static void registerService(services::Service *service);
 
-  static void setup();
-  static void loop();
+    static services::ConfigurationService* getConfigurationService();
+    static services::DispatcherService* getDispatcherService();
+    static services::NetworkService* getNetworkService();
 
-  static const uint32_t &getUid();
-  static const char *getName();
-  static const char *getVersion();
+    static void setup();
+    static void loop();
 
-  static const LinkedList<Service> & getServices();
-};
+    static const uint32_t &getUid();
+    static const char *getName();
+    static const char *getVersion();
+
+    static const utils::LinkedList<services::Service> & getServices();
+  };
+
+} // namespace ah
 
 #endif // __ARDUINO_HOME_RUNTIME_H__

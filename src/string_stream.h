@@ -5,23 +5,30 @@
 
 #include <Stream.h>
 
-class StringStream : public Stream
-{
-public:
-    StringStream(String &s) : string(s), position(0) { }
+namespace ah {
+  namespace utils {
 
-    // Stream methods
-    virtual int available() { return string.length() - position; }
-    virtual int read() { return position < string.length() ? string[position++] : -1; }
-    virtual int peek() { return position < string.length() ? string[position] : -1; }
-    virtual void flush() { };
-    // Print methods
-    virtual size_t write(uint8_t c) { string += (char)c; };
+    class StringStream : public Stream
+    {
+    public:
+      StringStream(String &s) : string(s), position(0) { }
 
-private:
-    String &string;
-    int length;
-    int position;
-};
+      // Stream methods
+      virtual int available() { return string.length() - position; }
+      virtual int read() { return position < string.length() ? string[position++] : -1; }
+      virtual int peek() { return position < string.length() ? string[position] : -1; }
+      virtual void flush() { };
+      // Print methods
+      virtual size_t write(uint8_t c) { string += (char)c; };
+
+    private:
+      String &string;
+      int length;
+      int position;
+    };
+
+  } // namespace utils
+} // namespace ah
+
 
 #endif // __ARDUINO_HOME_STRING_STREAM_H__

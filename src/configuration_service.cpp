@@ -6,19 +6,24 @@
 
 #define NAME "ConfigurationService"
 
-ConfigurationService::ConfigurationService()
- : size(0) {
-}
+namespace ah {
+  namespace services {
 
-void ConfigurationService::setup() {
-  EEPROM.begin(size);
-}
+    ConfigurationService::ConfigurationService()
+     : size(0) {
+    }
 
-const char *ConfigurationService::getName() const {
-  return NAME;
-}
+    void ConfigurationService::setup() {
+      EEPROM.begin(size);
+    }
 
-const char *ConfigurationService::getId() const {
-  return NAME;
-}
+    const char *ConfigurationService::getName() const {
+      return NAME;
+    }
 
+    const char *ConfigurationService::getId() const {
+      return NAME;
+    }
+
+  } // namespace services
+} // namespace ah

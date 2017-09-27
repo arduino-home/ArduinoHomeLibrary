@@ -8,71 +8,77 @@
 
 #define NAME "WifiNetworkService"
 
-static inline const char * wifiStatusToString() {
-  switch(WiFi.status()) {
-    case WL_CONNECTED: return "WL_CONNECTED";
-    case WL_NO_SHIELD: return "WL_NO_SHIELD";
-    case WL_IDLE_STATUS: return "WL_IDLE_STATUS";
-    case WL_NO_SSID_AVAIL: return "WL_NO_SSID_AVAIL";
-    case WL_SCAN_COMPLETED: return "WL_SCAN_COMPLETED";
-    case WL_CONNECT_FAILED: return "WL_CONNECT_FAILED";
-    case WL_CONNECTION_LOST: return "WL_CONNECTION_LOST";
-    case WL_DISCONNECTED: return "WL_DISCONNECTED";
-  }
-  return "<unknown>";
-}
+namespace ah {
+  namespace services {
 
-static inline void debugWifiStatus() {
-  static int oldStatus = -1;
+    static inline const char * wifiStatusToString() {
+      switch(WiFi.status()) {
+        case WL_CONNECTED: return "WL_CONNECTED";
+        case WL_NO_SHIELD: return "WL_NO_SHIELD";
+        case WL_IDLE_STATUS: return "WL_IDLE_STATUS";
+        case WL_NO_SSID_AVAIL: return "WL_NO_SSID_AVAIL";
+        case WL_SCAN_COMPLETED: return "WL_SCAN_COMPLETED";
+        case WL_CONNECT_FAILED: return "WL_CONNECT_FAILED";
+        case WL_CONNECTION_LOST: return "WL_CONNECTION_LOST";
+        case WL_DISCONNECTED: return "WL_DISCONNECTED";
+      }
+      return "<unknown>";
+    }
 
-  if(oldStatus == WiFi.status()) { return; }
-  oldStatus = WiFi.status();
+    static inline void debugWifiStatus() {
+      static int oldStatus = -1;
 
-  AH_DEBUG(WiFi.SSID() << " " << wifiStatusToString());
-  if(oldStatus == WL_CONNECTED) { AH_DEBUG(" " << WiFi.localIP()); }
-  AH_DEBUG(endl);
-}
+      if(oldStatus == WiFi.status()) { return; }
+      oldStatus = WiFi.status();
 
-void WifiNetworkService::init() {
-  Runtime::setUid(ESP.getChipId());
-}
+      AH_DEBUG(WiFi.SSID() << " " << wifiStatusToString());
+      if(oldStatus == WL_CONNECTED) { AH_DEBUG(" " << WiFi.localIP()); }
+      AH_DEBUG(endl);
+    }
 
-void WifiNetworkService::loop() {
-  debugWifiStatus();
-}
+    void WifiNetworkService::init() {
+      Runtime::setUid(ESP.getChipId());
+    }
 
-Server *WifiNetworkService::createServer(const int &port) {
-  return new WiFiServer(port);
-}
+    void WifiNetworkService::loop() {
+      debugWifiStatus();
+    }
 
-Client *WifiNetworkService::createClient() {
-  return new WiFiClient();
-}
+    Server *WifiNetworkService::createServer(const int &port) {
+      return new WiFiServer(port);
+    }
 
-Client *WifiNetworkService::serverAvailable(Server *server) {
-  auto wserver = static_cast<WiFiServer *>(server);
-  auto client = wserver->available();
-  if(!client) {
-    return nullptr;
-  }
-  return new WiFiClient(client);
-}
+    Client *WifiNetworkService::createClient() {
+      return new WiFiClient();
+    }
 
-void WifiNetworkService::serverClose(Server *server) {
-  auto wserver = static_cast<WiFiServer *>(server);
-  wserver->close();
-}
+    Client *WifiNetworkService::serverAvailable(Server *server) {
+      auto wserver = static_cast<WiFiServer *>(server);
+      auto client = wserver->available();
+      if(!client) {
+        return nullptr;
+      }
+      return new WiFiClient(client);
+    }
 
-bool WifiNetworkService::isOnline() {
-  return WiFi.status() == WL_CONNECTED;
-}
+    void WifiNetworkService::serverClose(Server *server) {
+      auto wserver = static_cast<WiFiServer *>(server);
+      wserver->close();
+    }
 
-const char *WifiNetworkService::getName() const {
-  return NAME;
-}
+    bool WifiNetworkService::isOnline() {
+      return WiFi.status() == WL_CONNECTED;
+    }
 
-const char *WifiNetworkService::getId() const {
-  return NAME;
-}
+    const char *WifiNetworkService::getName() const {
+      return NAME;
+    }
+
+    const char *WifiNetworkService::getId() const {
+      return NAME;
+    }
+
+  } // namespace services
+} // namespace ah
 
 #endif // ESP8266

@@ -5,21 +5,27 @@
 
 #include "service.h"
 
-struct WifiSetupService : public Service {
-  explicit WifiSetupService(const int &pconfigPin);
-  virtual ~WifiSetupService() = default;
+namespace ah {
+  namespace services {
 
-  virtual void init();
-  virtual void setup();
+    struct WifiSetupService : public Service {
+      explicit WifiSetupService(const int &pconfigPin);
+      virtual ~WifiSetupService() = default;
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
-  virtual const char *getSettings() const;
+      virtual void init();
+      virtual void setup();
 
-private:
-  int configPin;
-  String settings;
-};
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+      virtual const char *getSettings() const;
+
+    private:
+      int configPin;
+      String settings;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // ESP8266
 

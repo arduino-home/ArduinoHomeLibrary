@@ -6,38 +6,46 @@
 #include "service.h"
 #include "list.h"
 
-struct DispatcherGetterNode;
-struct DispatcherSetterNode;
-struct DispatcherNotifierNode;
+namespace ah {
+  namespace services {
 
-struct DispatcherService : public Service {
-  typedef std::function<bool(ArduinoJson::JsonVariant &)> getter_t;
-  typedef std::function<bool(const ArduinoJson::JsonVariant &)> setter_t;
-  typedef std::function<void(const String &, const ArduinoJson::JsonVariant &)> notifier_t;
-  enum HandlerResult { success, not_found, handler_error };
+    namespace internal {
+      struct DispatcherGetterNode;
+      struct DispatcherSetterNode;
+      struct DispatcherNotifierNode;
+    } // namespace internal
 
-  virtual ~DispatcherService() = default;
+    struct DispatcherService : public Service {
+      typedef std::function<bool(ArduinoJson::JsonVariant &)> getter_t;
+      typedef std::function<bool(const ArduinoJson::JsonVariant &)> setter_t;
+      typedef std::function<void(const String &, const ArduinoJson::JsonVariant &)> notifier_t;
+      enum HandlerResult { success, not_found, handler_error };
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
+      virtual ~DispatcherService() = default;
 
-  void registerGetter(const String &id, getter_t getter);
-  void registerSetter(const String &id, setter_t setter);
-  void registerNotifier(notifier_t notifier);
+      virtual const char *getName() const;
+      virtual const char *getId() const;
 
-  HandlerResult get(const String &id, ArduinoJson::JsonVariant &value) const;
-  HandlerResult set(const String &id, const ArduinoJson::JsonVariant &value) const;
-  void notify(const String &id, const ArduinoJson::JsonVariant &value) const;
+      void registerGetter(const String &id, getter_t getter);
+      void registerSetter(const String &id, setter_t setter);
+      void registerNotifier(notifier_t notifier);
 
-  bool hasGetter(const String &id) const;
-  bool hasSetter(const String &id) const;
+      HandlerResult get(const String &id, ArduinoJson::JsonVariant &value) const;
+      HandlerResult set(const String &id, const ArduinoJson::JsonVariant &value) const;
+      void notify(const String &id, const ArduinoJson::JsonVariant &value) const;
 
-  static StaticJsonBuffer<1024> &sharedBuffer();
+      bool hasGetter(const String &id) const;
+      bool hasSetter(const String &id) const;
 
-private:
-  LinkedList<DispatcherGetterNode> getters;
-  LinkedList<DispatcherSetterNode> setters;
-  LinkedList<DispatcherNotifierNode> notifiers;
-};
+      static StaticJsonBuffer<1024> &sharedBuffer();
+
+    private:
+      utils::LinkedList<internal::DispatcherGetterNode> getters;
+      utils::LinkedList<internal::DispatcherSetterNode> setters;
+      utils::LinkedList<internal::DispatcherNotifierNode> notifiers;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // __ARDUINO_HOME_DISPATCHER_SERVICE_H__

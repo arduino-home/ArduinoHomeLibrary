@@ -1,68 +1,75 @@
 #ifndef __ARDUINO_HOME_LIST_H__
 #define __ARDUINO_HOME_LIST_H__
 
-template<typename Node>
-class LinkedListIterator {
-  Node *current;
+namespace ah {
+  namespace utils {
 
-public:
-  LinkedListIterator(Node *pcur)
-   : current(pcur) {
-  }
+    template<typename Node>
+    class LinkedListIterator {
+      Node *current;
 
-  LinkedListIterator<Node> &operator++() {
-    current = current->next;
-  }
+    public:
+      LinkedListIterator(Node *pcur)
+       : current(pcur) {
+      }
 
-  Node *operator*() const {
-    return current;
-  }
+      LinkedListIterator<Node> &operator++() {
+        current = current->next;
+      }
 
-  bool operator == (const LinkedListIterator<Node> &other) const {
-    return current == other.current;
-  }
+      Node *operator*() const {
+        return current;
+      }
 
-  bool operator != (const LinkedListIterator<Node> &other) const {
-    return !(*this == other);
-  }
-};
+      bool operator == (const LinkedListIterator<Node> &other) const {
+        return current == other.current;
+      }
 
-template<typename Node>
-class LinkedList {
-  Node *head;
-  Node *tail;
+      bool operator != (const LinkedListIterator<Node> &other) const {
+        return !(*this == other);
+      }
+    };
 
-public:
-  explicit LinkedList()
-   : head(nullptr), tail(nullptr) {
-  }
+    template<typename Node>
+    class LinkedList {
+      Node *head;
+      Node *tail;
 
-  void add(Node *node) {
-    node->next = nullptr;
-    if(head) {
-      tail->next = node;
-      tail = node;
-      return;
-    }
-    
-    head = tail = node;
-  }
+    public:
+      explicit LinkedList()
+       : head(nullptr), tail(nullptr) {
+      }
 
-  LinkedListIterator<Node> begin() {
-    return LinkedListIterator<Node>(head);
-  }
+      void add(Node *node) {
+        node->next = nullptr;
+        if(head) {
+          tail->next = node;
+          tail = node;
+          return;
+        }
 
-  LinkedListIterator<const Node> begin() const {
-    return LinkedListIterator<const Node>(head);
-  }
+        head = tail = node;
+      }
 
-  LinkedListIterator<Node> end() {
-    return LinkedListIterator<Node>(nullptr);
-  }
+      LinkedListIterator<Node> begin() {
+        return LinkedListIterator<Node>(head);
+      }
 
-  LinkedListIterator<const Node> end() const {
-    return LinkedListIterator<const Node>(nullptr);
-  }
-};
+      LinkedListIterator<const Node> begin() const {
+        return LinkedListIterator<const Node>(head);
+      }
+
+      LinkedListIterator<Node> end() {
+        return LinkedListIterator<Node>(nullptr);
+      }
+
+      LinkedListIterator<const Node> end() const {
+        return LinkedListIterator<const Node>(nullptr);
+      }
+    };
+
+  } // namespace utils
+} // namespace ah
+
 
 #endif // __ARDUINO_HOME_LIST_H__

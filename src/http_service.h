@@ -6,23 +6,31 @@
 class Client;
 class Server;
 
-class WebServer;
+namespace ah {
+  namespace web {
+    class WebServer;
+  } // namespace web
 
-struct HttpService : public Service {
+  namespace services {
 
-  explicit HttpService(const int &pport = 80);
-  virtual ~HttpService() = default;
+    struct HttpService : public Service {
 
-  virtual void setup();
-  virtual void loop();
+      explicit HttpService(const int &pport = 80);
+      virtual ~HttpService() = default;
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
-  virtual const char *getSettings() const;
+      virtual void setup();
+      virtual void loop();
 
-private:
-  String settings;
-  WebServer *server;
-};
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+      virtual const char *getSettings() const;
+
+    private:
+      String settings;
+      web::WebServer *server;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // __ARDUINO_HOME_HTTP_SERVICE_H__

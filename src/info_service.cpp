@@ -9,53 +9,58 @@
 
 #define NAME "InfoService"
 
-void InfoService::init() {
-  auto dispatcher = Runtime::getDispatcherService();
+namespace ah {
+  namespace services {
 
-  dispatcher->registerGetter("info", [this](ArduinoJson::JsonVariant &value) {
-    const auto &services = Runtime::getServices();
-    JsonArray& list = DispatcherService::sharedBuffer().createArray();
+    void InfoService::init() {
+      auto dispatcher = Runtime::getDispatcherService();
 
-    JsonObject& rtitem = list.createNestedObject();
-    rtitem["id"] = "Runtime";
-    rtitem["name"] = "Runtime";
-    rtitem["settings"] = String("version=") + Runtime::getVersion();
+      dispatcher->registerGetter("info", [this](ArduinoJson::JsonVariant &value) {
+        const auto &services = Runtime::getServices();
+        JsonArray& list = DispatcherService::sharedBuffer().createArray();
 
-    for(const auto *service : services) {
-      JsonObject& item = list.createNestedObject();
-      item["id"] = service->getId();
-      item["name"] = service->getName();
-      const auto *settings = service->getSettings();
-      if(settings) {
-        item["settings"] = settings;
+        JsonObject& rtitem = list.createNestedObject();
+        rtitem["id"] = "Runtime";
+        rtitem["name"] = "Runtime";
+        rtitem["settings"] = String("version=") + Runtime::getVersion();
+
+        for(const auto *service : services) {
+          JsonObject& item = list.createNestedObject();
+          item["id"] = service->getId();
+          item["name"] = service->getName();
+          const auto *settings = service->getSettings();
+          if(settings) {
+            item["settings"] = settings;
+          }
+        }
+
+        value = list;
+        return true;
+      });
+    }
+
+    void InfoService::setup() {
+      const auto &services = Runtime::getServices();
+
+      AH_DEBUG("Runtime: name=" << Runtime::getName() << ", version=" << Runtime::getVersion() << endl);
+
+      for(const auto *service : services) {
+        AH_DEBUG(service->getName() << ": id=" << service->getId());
+        const auto *settings = service->getSettings();
+        if(settings) {
+          AH_DEBUG(", " << settings);
+        }
+        AH_DEBUG(endl);
       }
     }
 
-    value = list;
-    return true;
-  });
-}
-
-void InfoService::setup() {
-  const auto &services = Runtime::getServices();
-
-  AH_DEBUG("Runtime: name=" << Runtime::getName() << ", version=" << Runtime::getVersion() << endl);
-
-  for(const auto *service : services) {
-    AH_DEBUG(service->getName() << ": id=" << service->getId());
-    const auto *settings = service->getSettings();
-    if(settings) {
-      AH_DEBUG(", " << settings);
+    const char *InfoService::getName() const {
+      return NAME;
     }
-    AH_DEBUG(endl);
-  }
-}
 
-const char *InfoService::getName() const {
-  return NAME;
-}
+    const char *InfoService::getId() const {
+      return NAME;
+    }
 
-const char *InfoService::getId() const {
-  return NAME;
-}
-
+  } // namespace services
+} // namespace ah

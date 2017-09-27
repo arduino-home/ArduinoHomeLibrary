@@ -7,22 +7,28 @@
 
 class ESP8266WebServer;
 
-struct WifiHttpService : public Service {
+namespace ah {
+  namespace services {
 
-  explicit WifiHttpService(const int &pport = 80);
-  virtual ~WifiHttpService() = default;
+    struct WifiHttpService : public Service {
 
-  virtual void setup();
-  virtual void loop();
+      explicit WifiHttpService(const int &pport = 80);
+      virtual ~WifiHttpService() = default;
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
-  virtual const char *getSettings() const;
+      virtual void setup();
+      virtual void loop();
 
-private:
-  ESP8266WebServer *server;
-  String settings;
-};
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+      virtual const char *getSettings() const;
+
+    private:
+      ESP8266WebServer *server;
+      String settings;
+    };
+
+  } // namespace services
+} // namespace ah
 
 #endif // ESP8266
 

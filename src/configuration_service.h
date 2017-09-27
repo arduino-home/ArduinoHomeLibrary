@@ -6,51 +6,58 @@
 #include "utils.h"
 #include "service.h"
 
-template<typename Data>
-class ConfigItem : public Data {
+namespace ah {
+  namespace services {
 
-  int offset;
+    template<typename Data>
+    class ConfigItem : public Data {
 
-public:
+      int offset;
 
-  explicit ConfigItem(const int &off)
-   : offset(off) {
-  }
-    
-  void load() {
-    AH_DEBUG("config load at " << offset << endl);
-    EEPROM.get(offset, *static_cast<Data*>(this));
-  }
-  
-  void save() const {
-    AH_DEBUG("config save at " << offset << endl);
-    EEPROM.put(offset, *static_cast<const Data*>(this));
-    EEPROM.commit();
-  }
+    public:
 
-  int size() const {
-    return sizeof(Data);
-  }
-};
+      explicit ConfigItem(const int &off)
+       : offset(off) {
+      }
 
-struct ConfigurationService : public Service {
-  explicit ConfigurationService();
-  virtual ~ConfigurationService() = default;
-  
-  virtual void setup();
+      void load() {
+        AH_DEBUG("config load at " << offset << endl);
+        EEPROM.get(offset, *static_cast<Data*>(this));
+      }
 
-  virtual const char *getName() const;
-  virtual const char *getId() const;
+      void save() const {
+        AH_DEBUG("config save at " << offset << endl);
+        EEPROM.put(offset, *static_cast<const Data*>(this));
+        EEPROM.commit();
+      }
 
-  template<typename Data>
-  ConfigItem<Data>* createItem() {
-    ConfigItem<Data>* item = new ConfigItem<Data>(size);
-    size += item->size();
-    return item;
-  }
+      int size() const {
+        return sizeof(Data);
+      }
+    };
 
-private:
-  int size;
-};
+    struct ConfigurationService : public Service {
+      explicit ConfigurationService();
+      virtual ~ConfigurationService() = default;
+
+      virtual void setup();
+
+      virtual const char *getName() const;
+      virtual const char *getId() const;
+
+      template<typename Data>
+      ConfigItem<Data>* createItem() {
+        ConfigItem<Data>* item = new ConfigItem<Data>(size);
+        size += item->size();
+        return item;
+      }
+
+    private:
+      int size;
+    };
+
+  } // namespace services
+} // namespace ah
+
 
 #endif // __ARDUINO_HOME_CONFIGURATION_SERVICE_H__

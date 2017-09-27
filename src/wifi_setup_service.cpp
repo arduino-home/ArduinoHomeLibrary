@@ -12,53 +12,59 @@
 
 #define NAME "WifiSetupService"
 
-static inline void configWifi() {
-  WiFiManager wifiManager;
-  wifiManager.setDebugOutput(true);
+namespace ah {
+  namespace services {
 
-  String name = String(Runtime::getName()) + "-" + String(ESP.getChipId());
-  if (!wifiManager.startConfigPortal(name.c_str())) {
-    AH_DEBUG("failed to connect and hit timeout" << endl);
-    panic();
-  }
+    static inline void configWifi() {
+      WiFiManager wifiManager;
+      wifiManager.setDebugOutput(true);
 
-  AH_DEBUG("connected" << endl);
-}
+      String name = String(Runtime::getName()) + "-" + String(ESP.getChipId());
+      if (!wifiManager.startConfigPortal(name.c_str())) {
+        AH_DEBUG("failed to connect and hit timeout" << endl);
+        panic();
+      }
 
-static inline bool isConfigRequested(const int &pin) {
-  return digitalRead(pin) == LOW;
-}
+      AH_DEBUG("connected" << endl);
+    }
 
-WifiSetupService::WifiSetupService(const int &pconfigPin)
- : configPin(pconfigPin) {
-  StringStream ss(settings);
-  ss << "configPin=" << configPin;
-}
+    static inline bool isConfigRequested(const int &pin) {
+      return digitalRead(pin) == LOW;
+    }
 
-void WifiSetupService::init() {
-  pinMode(configPin, INPUT_PULLUP);
+    WifiSetupService::WifiSetupService(const int &pconfigPin)
+     : configPin(pconfigPin) {
+      utils::StringStream ss(settings);
+      ss << "configPin=" << configPin;
+    }
 
-  if(isConfigRequested(configPin)) {
-    configWifi();
-    ESP.reset();
-  }
-}
+    void WifiSetupService::init() {
+      pinMode(configPin, INPUT_PULLUP);
 
-void WifiSetupService::setup() {
-  WiFi.mode(WIFI_STA);
-  WiFi.begin();
-}
+      if(isConfigRequested(configPin)) {
+        configWifi();
+        ESP.reset();
+      }
+    }
 
-const char *WifiSetupService::getName() const {
-  return NAME;
-}
+    void WifiSetupService::setup() {
+      WiFi.mode(WIFI_STA);
+      WiFi.begin();
+    }
 
-const char *WifiSetupService::getId() const {
-  return NAME;
-}
+    const char *WifiSetupService::getName() const {
+      return NAME;
+    }
 
-const char *WifiSetupService::getSettings() const {
-  return settings.c_str();
-}
+    const char *WifiSetupService::getId() const {
+      return NAME;
+    }
+
+    const char *WifiSetupService::getSettings() const {
+      return settings.c_str();
+    }
+
+  } // namespace services
+} // namespace ah
 
 #endif // ESP8266
