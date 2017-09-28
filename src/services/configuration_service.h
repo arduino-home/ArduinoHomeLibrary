@@ -28,7 +28,9 @@ namespace ah {
       void save() const {
         AH_DEBUG("config save at " << offset << endl);
         EEPROM.put(offset, *static_cast<const Data*>(this));
+#ifdef ESP8266
         EEPROM.commit();
+#endif
       }
 
       int size() const {
