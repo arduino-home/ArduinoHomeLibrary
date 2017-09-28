@@ -10,6 +10,10 @@
 
 #define NAME "RGBService"
 
+#ifndef PWMRANGE
+#define PWMRANGE 255
+#endif
+
 namespace ah {
   namespace services {
 

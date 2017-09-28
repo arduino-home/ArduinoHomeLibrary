@@ -14,7 +14,9 @@ namespace ah {
     }
 
     void ConfigurationService::setup() {
+#ifdef ESP8266
       EEPROM.begin(size);
+#endif
     }
 
     const char *ConfigurationService::getName() const {
