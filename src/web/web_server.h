@@ -68,7 +68,7 @@ namespace ah {
       void close();
       void stop();
 
-      bool authenticate(const char * username, const char * password);
+      //bool authenticate(const char * username, const char * password);
       void requestAuthentication(HTTPAuthMethod mode = BASIC_AUTH, const char* realm = NULL, const String& authFailMsg = String("") );
 
       typedef utils::function<void(void)> THandlerFunction;

@@ -1,7 +1,7 @@
 // from https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WebServer/src/ESP8266WebServer.cpp
 
 #include <Arduino.h>
-#include <libb64/cencode.h>
+//#include <libb64/cencode.h>
 
 #include "services/network_service.h"
 #include "web_server.h"
@@ -144,7 +144,7 @@ namespace ah {
       }
       _currentStatus = HC_NONE;
     }
-
+/*
     bool WebServer::authenticate(const char * username, const char * password){
       if(hasHeader(AUTHORIZATION_HEADER)){
         String authReq = header(AUTHORIZATION_HEADER);
@@ -236,7 +236,7 @@ namespace ah {
       }
       return false;
     }
-
+*/
     String WebServer::_getRandomHexString(){
       char buffer[33];  // buffer to hold 32 Hex Digit + /0
       int i;
