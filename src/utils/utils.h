@@ -6,6 +6,10 @@ inline Print &operator <<(Print &obj, T arg) { obj.print(arg); return obj; }
 
 static const char * const endl PROGMEM = "\n";
 
+#ifndef ESP8266
+static inline void panic() { for(;;); }
+#endif
+
 #define AH_DEBUG_INIT() do { Serial.begin(115200); AH_DEBUG(endl << "Starting" << endl); } while (0)
 #define AH_DEBUG(msg) (Serial << msg)
 #define AH_PANIC(msg) do { AH_DEBUG(msg); AH_DEBUG(endl); panic(); } while (0)
