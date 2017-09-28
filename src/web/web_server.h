@@ -68,9 +68,6 @@ namespace ah {
       void close();
       void stop();
 
-      //bool authenticate(const char * username, const char * password);
-      void requestAuthentication(HTTPAuthMethod mode = BASIC_AUTH, const char* realm = NULL, const String& authFailMsg = String("") );
-
       typedef utils::function<void(void)> THandlerFunction;
       void on(const String &uri, THandlerFunction handler);
       void on(const String &uri, HTTPMethod method, THandlerFunction fn);
@@ -136,7 +133,6 @@ namespace ah {
       void _prepareHeader(String& response, int code, const char* content_type, size_t contentLength);
       bool _collectHeader(const char* headerName, const char* headerValue);
 
-      String _getRandomHexString();
       // for extracting Auth parameters
       String _exractParam(String& authReq,const String& param,const char delimit = '"');
 
