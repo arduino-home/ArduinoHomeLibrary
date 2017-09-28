@@ -4,7 +4,7 @@
 template<class T>
 inline Print &operator <<(Print &obj, T arg) { obj.print(arg); return obj; }
 
-static const char * endl PROGMEM = "\n";
+static const char * const endl PROGMEM = "\n";
 
 #define AH_DEBUG_INIT() do { Serial.begin(115200); AH_DEBUG(endl << "Starting" << endl); } while (0)
 #define AH_DEBUG(msg) (Serial << msg)

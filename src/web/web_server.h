@@ -3,7 +3,7 @@
 
 // from https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WebServer/src/ESP8266WebServer.h
 
-#include <functional>
+#include "utils/function.h"
 
 #define HTTP_DOWNLOAD_UNIT_SIZE 1460
 
@@ -71,7 +71,7 @@ namespace ah {
       bool authenticate(const char * username, const char * password);
       void requestAuthentication(HTTPAuthMethod mode = BASIC_AUTH, const char* realm = NULL, const String& authFailMsg = String("") );
 
-      typedef std::function<void(void)> THandlerFunction;
+      typedef utils::function<void(void)> THandlerFunction;
       void on(const String &uri, THandlerFunction handler);
       void on(const String &uri, HTTPMethod method, THandlerFunction fn);
       void on(const String &uri, HTTPMethod method, THandlerFunction fn, THandlerFunction ufn);

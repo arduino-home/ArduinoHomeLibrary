@@ -1,9 +1,9 @@
 #ifndef __ARDUINO_HOME_DISPATCHER_SERVICE_H__
 #define __ARDUINO_HOME_DISPATCHER_SERVICE_H__
 
-#include <functional>
 #include <ArduinoJson.h>
 #include "service.h"
+#include "utils/function.h"
 #include "utils/list.h"
 
 namespace ah {
@@ -16,9 +16,9 @@ namespace ah {
     } // namespace internal
 
     struct DispatcherService : public Service {
-      typedef std::function<bool(ArduinoJson::JsonVariant &)> getter_t;
-      typedef std::function<bool(const ArduinoJson::JsonVariant &)> setter_t;
-      typedef std::function<void(const String &, const ArduinoJson::JsonVariant &)> notifier_t;
+      typedef utils::function<bool(ArduinoJson::JsonVariant &)> getter_t;
+      typedef utils::function<bool(const ArduinoJson::JsonVariant &)> setter_t;
+      typedef utils::function<void(const String &, const ArduinoJson::JsonVariant &)> notifier_t;
       enum HandlerResult { success, not_found, handler_error };
 
       virtual ~DispatcherService() = default;
