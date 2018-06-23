@@ -12,3 +12,4 @@
 #include "services/irc_service.h"
 #include "services/info_service.h"
 #include "services/rgb_service.h"
+#include "services/relay_service.h"
