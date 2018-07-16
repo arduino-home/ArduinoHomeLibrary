@@ -6,19 +6,19 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Runtime KEYWORD1
-Service KEYWORD1
-CommunicationService KEYWORD1
-WifiService KEYWORD1
-ConfigurationService KEYWORD1
-InfoService KEYWORD1
-RGBService KEYWORD1
+Runtime	KEYWORD1
+Service	KEYWORD1
+CommunicationService	KEYWORD1
+WifiService	KEYWORD1
+ConfigurationService	KEYWORD1
+InfoService	KEYWORD1
+RGBService	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-setName KEYWORD2
-registerService KEYWORD2
+setName	KEYWORD2
+registerService	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
